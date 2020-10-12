@@ -1,4 +1,4 @@
-from ..Common.telemetry_message import TelemetryMessage
+from ..common.telemetry_message import TelemetryMessage
 
 import json
 import logging

@@ -2,16 +2,16 @@
   "scriptFile": "insert_telemetry.py",
   "bindings": [
     {
+      "direction": "in",
       "type": "eventGridTrigger",
-      "name": "event",
-      "direction": "in"
+      "name": "event"
     },
     {
+      "direction": "out",
       "type": "table",
       "name": "$return",
       "tableName": "TankStatus",
-      "connection": "AzureWebJobsStorage",
-      "direction": "out"
+      "connection": "AzureWebJobsStorage"
     }
   ]
 }

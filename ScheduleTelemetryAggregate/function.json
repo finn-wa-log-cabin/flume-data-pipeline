@@ -1,0 +1,18 @@
+{
+  "scriptFile": "schedule_aggregate.py",
+  "bindings": [
+    {
+      "direction": "in",
+      "type": "timerTrigger",
+      "name": "request",
+      "schedule": "0 0 3 * * *"
+    },
+    {
+      "direction": "out",
+      "type": "queue",
+      "name": "$return",
+      "queueName": "scheduled-aggregates",
+      "connection": "AzureWebJobsStorage"
+    }
+  ]
+}

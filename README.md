@@ -15,7 +15,7 @@ The [Azure table storage design guidelines](https://docs.microsoft.com/en-us/azu
 
 I plan to insert data row-by-row into an hourly partition, and then use scheduled functions to aggregate the data into daily and weekly partitions.
 
-## Table Model: water-tank-monitor-data
+## Table Model: DeviceTelemetry
 
 Each device will have a series of partitions, named using a compound key in the format `DeviceID_Granularity`.
 
@@ -39,3 +39,31 @@ A function will run weekly to populate this table from DeviceID_raw.
 
 - Key format: date int (e.g. 20201011)
 - Value format: ` { averageDepth: number }`
+
+## Table Model: Devices
+
+- PartitionKey: CustomerID
+- RowKey: DeviceID
+- Will also include data about tank depth for required calculations
+
+# Data Pipeline
+
+  ![](images/data_pipeline.drawio.svg)
+  
+- schedule_aggregate has timer inputs
+- it uses the schedule information to figure out the granularity of the aggregate
+  request and the time since the last request (in case some have been missed)
+- it then outputs this information to a queue, with message:
+```json
+{
+  "partition": "DeviceId_Granularity", // PartitionKey in the input binding
+  "startDate": "unixTimeStamp", // used in the filter for the input binding
+  "granularity": "delta" // for use in the function
+}
+```
+- insert_aggregate then reads the queue as an input
+- input binding to the queue message sets the filter for the rows to return
+
+- https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-expressions-patterns
+- https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-table?tabs=python
+- https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-queue-output?tabs=python

@@ -1,0 +1,21 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "name": "msg",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "scheduled-aggregates",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "name": "data",
+      "type": "table",
+      "tableName": "TankStatus",
+      "partitionKey": "{queueTrigger.partitionKey}",
+      "filter": "-gt {queueTrigger.startDate}",
+      "connection": "AzureWebJobsStorage",
+      "direction": "in"
+    }
+  ]
+}
