@@ -3,11 +3,11 @@ from datetime import datetime
 
 from pytest_mock.plugin import MockerFixture
 
-from InsertTelemetry.insert_telemetry import main
+from DataPipelineFunctions.InsertTelemetry.insert_telemetry import main
 
 
 def get_mock_event(mocker: MockerFixture) -> any:
-    with open("InsertTelemetry/example_telemetry.json", "r") as file:
+    with open("DataPipelineTests/InsertTelemetry/example_telemetry.json", "r") as file:
         example_msg = file.read()
     example_telemetry = mocker.Mock()
     example_telemetry.get_json.return_value = example_msg

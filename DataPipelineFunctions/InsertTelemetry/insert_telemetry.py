@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 
 from azure.functions import EventGridEvent
-from common.telemetry_message import TelemetryMessage
+from ..Common.telemetry_message import TelemetryMessage
 
 
 def main(telemetry: EventGridEvent) -> str:

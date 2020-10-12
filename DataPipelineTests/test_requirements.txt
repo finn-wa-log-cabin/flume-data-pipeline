@@ -1,0 +1,3 @@
+pytest-dependency
+pytest-mock
+pytest-cov
