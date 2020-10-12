@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import logging
 
-from ..common.scheduling import TimerRequest
+from common.scheduling import TimerRequest
 
 
 def main(request: str) -> str:

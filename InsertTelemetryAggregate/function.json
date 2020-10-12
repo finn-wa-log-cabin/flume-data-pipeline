@@ -2,16 +2,16 @@
   "scriptFile": "__init__.py",
   "bindings": [
     {
-      "name": "msg",
+      "name": "requestMsg",
       "type": "queueTrigger",
       "direction": "in",
-      "queueName": "scheduled-aggregates",
+      "queueName": "telemetry-aggregate-requests",
       "connection": "AzureWebJobsStorage"
     },
     {
       "name": "data",
       "type": "table",
-      "tableName": "TankStatus",
+      "tableName": "DeviceTelemetry",
       "partitionKey": "{queueTrigger.partitionKey}",
       "filter": "-gt {queueTrigger.startDate}",
       "connection": "AzureWebJobsStorage",

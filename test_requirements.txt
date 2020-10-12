@@ -1,0 +1,2 @@
+pytest-dependency
+pytest-mock

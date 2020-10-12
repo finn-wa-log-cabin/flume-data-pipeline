@@ -4,13 +4,13 @@
     {
       "direction": "in",
       "type": "eventGridTrigger",
-      "name": "event"
+      "name": "telemetry"
     },
     {
       "direction": "out",
       "type": "table",
       "name": "$return",
-      "tableName": "TankStatus",
+      "tableName": "DeviceTelemetry",
       "connection": "AzureWebJobsStorage"
     }
   ]
