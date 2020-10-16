@@ -4,7 +4,7 @@
     {
       "direction": "in",
       "type": "eventGridTrigger",
-      "name": "telemetry"
+      "name": "event"
     },
     {
       "direction": "out",

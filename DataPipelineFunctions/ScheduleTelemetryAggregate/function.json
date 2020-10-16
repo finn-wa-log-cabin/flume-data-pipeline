@@ -1,17 +1,17 @@
 {
-  "scriptFile": "schedule_aggregate.py",
+  "scriptFile": "schedule_telemetry_aggregate.py",
   "bindings": [
     {
       "direction": "in",
       "type": "timerTrigger",
-      "name": "request",
+      "name": "timerJson",
       "schedule": "0 0 3 * * *"
     },
     {
-      "direction": "out",
-      "type": "queue",
-      "name": "$return",
-      "queueName": "scheduled-aggregates",
+      "direction": "in",
+      "type": "table",
+      "name": "devicesJson",
+      "tableName": "Devices",
       "connection": "AzureWebJobsStorage"
     }
   ]

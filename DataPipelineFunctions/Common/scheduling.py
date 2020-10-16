@@ -3,19 +3,6 @@ from datetime import datetime
 from dateutil import parser
 
 
-# {
-#     "Schedule": {
-#         "AdjustForDST": true
-#     },
-#     "ScheduleStatus":{
-#             "Last":"0001-01-01T00:00:00",
-#             "Next":"2020-10-12T03:00:00+13:00",
-#             "LastUpdated":"2020-10-11T22:17:58.1338076+13:00"
-#     },
-#     "IsPastDue": false
-# }
-
-
 class ScheduleStatus:
     """
     Represents a timer schedule status. This isn't currently in the Python SDK

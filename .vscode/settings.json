@@ -1,9 +1,10 @@
 {
-  "azureFunctions.deploySubpath": "./src/functions",
+  "azureFunctions.deploySubpath": "DataPipelineFunctions",
   "azureFunctions.scmDoBuildDuringDeployment": true,
-  "azureFunctions.pythonVenv": ".venv",
+  "azureFunctions.pythonVenv": "../.venv",
   "azureFunctions.projectLanguage": "Python",
   "azureFunctions.projectRuntime": "~3",
+  "azureFunctions.projectSubpath": "DataPipelineFunctions",
   "debug.internalConsoleOptions": "neverOpen",
   "python.testing.cwd": "",
   "python.pythonPath": "c:\\Users\\Finn\\Desktop\\water-tank-monitor-devops\\.venv\\Scripts\\python.exe",
@@ -12,6 +13,7 @@
   "python.testing.nosetestsEnabled": false,
   "python.testing.pytestEnabled": true,
   "files.exclude": {
+    "**/__pycache__": true,
     "**/.pytest_cache": true,
     "**/*.egg-info": true
   }

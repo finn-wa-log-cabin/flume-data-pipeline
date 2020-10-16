@@ -46,9 +46,14 @@ A function will run weekly to populate this table from DeviceID_raw.
 - RowKey: DeviceID
 - Will also include data about tank depth for required calculations
 
+## Table Model: Users
+
+- PartitionKey: CustomerID
+- RowKey: UserID
+
 # Data Pipeline
 
-  ![](images/data_pipeline.drawio.svg)
+  ![](docs/data_pipeline.drawio.svg)
   
 - schedule_aggregate has timer inputs
 - it uses the schedule information to figure out the granularity of the aggregate
@@ -56,7 +61,7 @@ A function will run weekly to populate this table from DeviceID_raw.
 - it then outputs this information to a queue, with message:
 ```json
 {
-  "partition": "DeviceId_Granularity", // PartitionKey in the input binding
+  "partition": "DeviceID_Granularity", // PartitionKey in the input binding
   "startDate": "unixTimeStamp", // used in the filter for the input binding
   "granularity": "delta" // for use in the function
 }

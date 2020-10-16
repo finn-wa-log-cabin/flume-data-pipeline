@@ -1,5 +1,5 @@
 {
-  "scriptFile": "__init__.py",
+  "scriptFile": "insert_telemetry_aggregate.py",
   "bindings": [
     {
       "name": "requestMsg",
