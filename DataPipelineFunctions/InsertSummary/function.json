@@ -1,19 +1,19 @@
 {
-  "scriptFile": "insert_telemetry_aggregate.py",
+  "scriptFile": "insert_summary.py",
   "bindings": [
     {
       "name": "requestMsg",
       "type": "queueTrigger",
       "direction": "in",
-      "queueName": "telemetry-aggregate-requests",
+      "queueName": "summary-requests",
       "connection": "AzureWebJobsStorage"
     },
     {
-      "name": "data",
+      "name": "dataJson",
       "type": "table",
       "tableName": "DeviceTelemetry",
-      "partitionKey": "{queueTrigger.partitionKey}",
-      "filter": "-gt {queueTrigger.startDate}",
+      "partitionKey": "{queueTrigger.deviceID}",
+      "filter": "-gt {queueTrigger.startTime} -lt {queueTrigger.endTime}",
       "connection": "AzureWebJobsStorage",
       "direction": "in"
     }

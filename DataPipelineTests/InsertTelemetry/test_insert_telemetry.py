@@ -1,3 +1,4 @@
+from DataPipelineTests.QueueDailySummary.test_queue_daily_summary import TEST_DIR
 import json
 from datetime import datetime
 
@@ -5,9 +6,11 @@ from pytest_mock.plugin import MockerFixture
 
 from DataPipelineFunctions.InsertTelemetry.insert_telemetry import main
 
+TEST_DIR = "DataPipelineTests/InsertTelemetry/"
+
 
 def get_mock_event(mocker: MockerFixture) -> any:
-    with open("DataPipelineTests/InsertTelemetry/example_telemetry.json", "r") as file:
+    with open(TEST_DIR + "telemetry.json", "r") as file:
         example_msg = file.read()
     example_telemetry = mocker.Mock()
     example_telemetry.get_json.return_value = example_msg

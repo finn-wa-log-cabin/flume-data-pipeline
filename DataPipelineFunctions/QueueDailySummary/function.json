@@ -1,5 +1,5 @@
 {
-  "scriptFile": "schedule_telemetry_aggregate.py",
+  "scriptFile": "queue_daily_summary.py",
   "bindings": [
     {
       "direction": "in",
@@ -12,6 +12,13 @@
       "type": "table",
       "name": "devicesJson",
       "tableName": "Devices",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "direction": "out",
+      "type": "queue",
+      "name": "$return",
+      "queueName": "summary-requests",
       "connection": "AzureWebJobsStorage"
     }
   ]
