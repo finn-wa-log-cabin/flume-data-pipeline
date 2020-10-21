@@ -11,13 +11,13 @@
       "direction": "in",
       "type": "table",
       "name": "devicesJson",
-      "tableName": "Devices",
+      "tableName": "Device",
       "connection": "AzureWebJobsStorage"
     },
     {
       "direction": "out",
       "type": "queue",
-      "name": "$return",
+      "name": "requests",
       "queueName": "summary-requests",
       "connection": "AzureWebJobsStorage"
     }

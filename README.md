@@ -19,7 +19,7 @@ I plan to insert data row-by-row into an hourly partition, and then use schedule
 
 Each device will have a series of partitions, named using a compound key in the format `DeviceID_Granularity`.
 
-### Partition 1: DeviceID_raw
+### Partition 1: CustomerID_DeviceID_Raw
 
 The partition in which telemetry data is first inserted. It is called "Raw" instead of "Hourly" in case the upload rate ends up being different.
 

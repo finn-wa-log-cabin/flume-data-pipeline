@@ -1,7 +1,8 @@
 import json
-from DataPipelineFunctions.Common.time_utils import to_timestamp
 from datetime import datetime
 from typing import List
+
+from DataPipelineFunctions.Common.time_utils import timestamp
 
 
 class SummaryRequest:
@@ -15,10 +16,10 @@ class SummaryRequest:
         self.period_days = period_days
 
     def set_start_time(self, start: datetime):
-        self.start_time = to_timestamp(start)
+        self.start_time = timestamp(start)
 
     def set_end_time(self, end: datetime):
-        self.start_time = to_timestamp(end)
+        self.end_time = timestamp(end)
 
     def generate_messages(self, devices: List[dict]) -> str:
         msg = {
@@ -27,4 +28,4 @@ class SummaryRequest:
             "startTime": self.start_time,
             "endTime": self.end_time,
         }
-        return json.dumps([{"deviceID": d["deviceID"], **msg} for d in devices])
+        return [json.dumps({"device": d, **msg}) for d in devices]
