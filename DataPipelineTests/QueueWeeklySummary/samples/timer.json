@@ -1,0 +1,11 @@
+{
+  "Schedule": {
+    "AdjustForDST": true
+  },
+  "ScheduleStatus": {
+    "Last": "2020-10-19T12:00:00+13:00",
+    "Next": "2020-10-20T03:00:00+13:00",
+    "LastUpdated": "2020-10-19T21:34:23.1167495+13:00"
+  },
+  "IsPastDue": false
+}

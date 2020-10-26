@@ -1,11 +1,11 @@
 {
-  "scriptFile": "queue_daily_summary.py",
+  "scriptFile": "queue_weekly_summary.py",
   "bindings": [
     {
       "direction": "in",
       "type": "timerTrigger",
       "name": "timerJson",
-      "schedule": "0 0 3 * * *"
+      "schedule": "0 0 3 * * 0"
     },
     {
       "direction": "in",

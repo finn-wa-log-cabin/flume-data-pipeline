@@ -6,5 +6,5 @@ from DataPipelineFunctions.Common.summary import SummaryRequest
 
 
 def main(timerJson: str, devicesJson: str, msgs: func.Out[List[str]]):
-    request = SummaryRequest("Daily", 1)
+    request = SummaryRequest("Weekly", 7)
     msgs.set(get_request_msgs(timerJson, devicesJson, request))

@@ -7,7 +7,7 @@ from DataPipelineTests.TestUtils.mock_out import MockOut
 from dateutil import tz, utils
 from dateutil.tz.tz import tzoffset
 
-SAMPLES_PATH = "DataPipelineTests/QueueDailySummary/samples/"
+SAMPLES_PATH = "DataPipelineTests/QueueWeeklySummary/samples/"
 
 
 def get_sample(name: str) -> str:
@@ -20,8 +20,8 @@ def test_queue_daily_summary():
     devices_json = get_sample("devices")
     nzdt = tzoffset("NZDT", timedelta(hours=13))
     expected = {
-        "periodName": "Daily",
-        "periodDays": 1,
+        "periodName": "Weekly",
+        "periodDays": 7,
         "startTime": timestamp(start_of_day(as_utc(datetime(2020, 10, 19, tzinfo=nzdt)))),
         "endTime": timestamp(utils.today(tzinfo=tz.UTC)),
     }

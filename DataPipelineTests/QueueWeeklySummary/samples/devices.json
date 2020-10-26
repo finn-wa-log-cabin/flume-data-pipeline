@@ -1,0 +1,17 @@
+[
+  {
+    "PartitionKey": "TestCustomer1",
+    "RowKey": "TestDevice1",
+    "tankDepth": 1234
+  },
+  {
+    "PartitionKey": "TestCustomer1",
+    "RowKey": "TestDevice2",
+    "tankDepth": 1000
+  },
+  {
+    "PartitionKey": "TestCustomer2",
+    "RowKey": "TestDevice3",
+    "tankDepth": 2200
+  }
+]
