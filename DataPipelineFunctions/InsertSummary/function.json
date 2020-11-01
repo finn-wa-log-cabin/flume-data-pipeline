@@ -12,8 +12,8 @@
       "name": "dataJson",
       "type": "table",
       "tableName": "DeviceTelemetry",
-      "partitionKey": "{queueTrigger.deviceID}",
-      "filter": "-gt {queueTrigger.startTime} -lt {queueTrigger.endTime}",
+      "partitionKey": "{partition}",
+      "filter": "RowKey gt '{startTime}' and RowKey lt '{endTime}'",
       "connection": "AzureWebJobsStorage",
       "direction": "in"
     }

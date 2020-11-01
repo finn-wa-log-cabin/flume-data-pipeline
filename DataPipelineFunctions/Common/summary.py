@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+import logging
 from typing import List
 
 from DataPipelineFunctions.Common.time_utils import timestamp
@@ -21,11 +22,17 @@ class SummaryRequest:
     def set_end_time(self, end: datetime):
         self.end_time = timestamp(end)
 
-    def generate_messages(self, devices: List[dict]) -> str:
-        msg = {
-            "periodName": self.name,
-            "periodDays": self.period_days,
+    def get_queue_output(self, devices: List[dict]) -> str:
+        return json.dumps([self.get_message(d) for d in devices])
+
+    def get_message(self, device: dict) -> dict:
+        partitionKey = f"{device['customerID']}_{device['deviceID']}_Raw"
+        logging.info(partitionKey)
+        return {
+            "partition": partitionKey,
             "startTime": self.start_time,
             "endTime": self.end_time,
+            "device": device,
+            "periodName": self.name,
+            "periodDays": self.period_days,
         }
-        return [json.dumps({"device": d, **msg}) for d in devices]
