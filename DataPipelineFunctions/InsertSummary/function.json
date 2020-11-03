@@ -12,7 +12,7 @@
       "name": "dataJson",
       "type": "table",
       "tableName": "DeviceTelemetry",
-      "partitionKey": "{partition}",
+      "partitionKey": "{partitionKey}",
       "filter": "RowKey gt '{startTime}' and RowKey lt '{endTime}'",
       "connection": "AzureWebJobsStorage",
       "direction": "in"

@@ -2,16 +2,22 @@
   {
     "PartitionKey": "TestCustomer1",
     "RowKey": "TestDevice1",
+    "customerID": "TestCustomer1",
+    "deviceID": "TestDevice1",
     "tankDepth": 1234
   },
   {
     "PartitionKey": "TestCustomer1",
     "RowKey": "TestDevice2",
+    "customerID": "TestCustomer1",
+    "deviceID": "TestDevice2",
     "tankDepth": 1000
   },
   {
     "PartitionKey": "TestCustomer2",
     "RowKey": "TestDevice3",
+    "customerID": "TestCustomer2",
+    "deviceID": "TestDevice3",
     "tankDepth": 2200
   }
 ]

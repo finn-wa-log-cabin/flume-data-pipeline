@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 
 import DataPipelineFunctions.QueueDailySummary.queue_daily_summary as qds
 from DataPipelineFunctions.Common.time_utils import as_utc, start_of_day, timestamp
-from DataPipelineTests.TestUtils.mock_out import MockOut
 from dateutil import tz, utils
 from dateutil.tz.tz import tzoffset
 

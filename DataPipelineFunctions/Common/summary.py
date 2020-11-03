@@ -29,7 +29,7 @@ class SummaryRequest:
         partitionKey = f"{device['customerID']}_{device['deviceID']}_Raw"
         logging.info(partitionKey)
         return {
-            "partition": partitionKey,
+            "partitionKey": partitionKey,
             "startTime": self.start_time,
             "endTime": self.end_time,
             "device": device,
