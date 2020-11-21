@@ -25,3 +25,7 @@ def start_of_day(dt: datetime) -> datetime:
     with the time set to the start of the day.
     """
     return datetime(dt.year, dt.month, dt.day, tzinfo=dt.tzinfo)
+
+
+def dateint(dt: datetime) -> int:
+    return int(dt.strftime(r"%Y%m%d"))

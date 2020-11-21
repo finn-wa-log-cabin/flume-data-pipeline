@@ -35,4 +35,5 @@ def test_queue_daily_summary():
         assert req["endTime"] == expected["endTime"]
         d = devices[i]
         assert req["device"] == d
-        assert req["partitionKey"] == f"{d['customerID']}_{d['deviceID']}_Raw"
+        assert req["readPartition"] == f"{d['customerID']}_{d['deviceID']}_Raw"
+        assert req["writePartition"] == f"{d['customerID']}_{d['deviceID']}_Daily"
