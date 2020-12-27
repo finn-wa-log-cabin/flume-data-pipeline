@@ -1,0 +1,28 @@
+{
+  "scriptFile": "insert_summary.py",
+  "bindings": [
+    {
+      "direction": "in",
+      "type": "queueTrigger",
+      "name": "requestMsg",
+      "queueName": "summary-requests",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "direction": "in",
+      "type": "table",
+      "name": "dataJson",
+      "tableName": "DeviceTelemetry",
+      "partitionKey": "{readPartition}",
+      "filter": "RowKey gt '{startTimestamp}' and RowKey lt '{endTimestamp}'",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "direction": "out",
+      "type": "table",
+      "name": "$return",
+      "tableName": "DeviceTelemetry",
+      "connection": "AzureWebJobsStorage"
+    }
+  ]
+}
