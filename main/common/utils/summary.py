@@ -2,12 +2,12 @@ import logging
 from typing import List
 
 from dateutil import tz, utils
-from main.common.domain.messages.summary import *
-from main.common.domain.messages.timer_request import TimerRequest
-from main.common.domain.tables.device import Device
-from main.common.domain.tables.device_telemetry import DeviceTelemetry
-from main.common.utils.time import *
-from main.InsertTelemetry.insert_telemetry import RAW_TELEMETRY
+from ...common.domain.messages.summary import *
+from ...common.domain.messages.timer_request import TimerRequest
+from ...common.domain.tables.device import Device
+from ...common.domain.tables.device_telemetry import DeviceTelemetry
+from ...common.utils.time import *
+from ...InsertTelemetry.insert_telemetry import RAW_TELEMETRY
 
 
 def device_summary_req_msgs(timerJson: str, devicesJson: str, period: SummaryPeriod) -> str:

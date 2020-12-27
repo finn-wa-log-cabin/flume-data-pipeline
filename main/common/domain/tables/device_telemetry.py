@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from main.common.domain.messages.summary import SummaryPeriod
-from main.common.domain.tables.table_schema import TableSchema
-from main.common.utils.time import timestamp
+from ....common.domain.messages.summary import SummaryPeriod
+from ....common.domain.tables.table_schema import TableSchema
+from ....common.utils.time import timestamp
 from marshmallow_dataclass import dataclass
 
 

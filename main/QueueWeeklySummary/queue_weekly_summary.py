@@ -1,5 +1,5 @@
-from main.common.domain.messages.summary import SummaryPeriod
-from main.common.utils.summary import device_summary_req_msgs
+from ..common.domain.messages.summary import SummaryPeriod
+from ..common.utils.summary import device_summary_req_msgs
 
 WEEKLY_PERIOD = SummaryPeriod("Weekly", 7)
 

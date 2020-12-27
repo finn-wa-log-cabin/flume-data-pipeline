@@ -1,9 +1,9 @@
-from main.common.domain.tables.device_telemetry import *
-from main.common.domain.messages.raw_telemetry import RawTelemetryMsg
 from datetime import datetime
 
 from azure.functions import EventGridEvent
-from main.common.utils.time import timestamp
+from ..common.domain.messages.raw_telemetry import RawTelemetryMsg
+from ..common.domain.tables.device_telemetry import *
+from ..common.utils.time import timestamp
 
 RAW_TELEMETRY = SummaryPeriod("Raw", 0)
 

@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from main.common.domain.schema_type import SchemaType
-from main.common.domain.tables.device import Device
+from ....common.domain.schema_type import SchemaType
+from ....common.domain.tables.device import Device
 from marshmallow_dataclass import dataclass
 
 

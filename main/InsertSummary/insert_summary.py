@@ -1,9 +1,9 @@
 import logging
 from typing import List
 
-from main.common.domain.messages.raw_telemetry import RawTelemetryMsg
-from main.common.domain.messages.summary import DeviceSummaryRequest
-from main.common.domain.tables.device_telemetry import DeviceTelemetry
+from ..common.domain.messages.raw_telemetry import RawTelemetryMsg
+from ..common.domain.messages.summary import DeviceSummaryRequest
+from ..common.domain.tables.device_telemetry import DeviceTelemetry
 
 
 def main(requestMsg: str, dataJson: str) -> str:

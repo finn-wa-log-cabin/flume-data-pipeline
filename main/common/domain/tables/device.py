@@ -1,4 +1,4 @@
-from main.common.domain.tables.table_schema import TableSchema
+from ....common.domain.tables.table_schema import TableSchema
 from marshmallow_dataclass import dataclass
 
 

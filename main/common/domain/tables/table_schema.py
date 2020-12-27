@@ -1,4 +1,4 @@
-from main.common.domain.schema_type import SchemaType
+from ....common.domain.schema_type import SchemaType
 from marshmallow_dataclass import dataclass
 
 

@@ -1,4 +1,4 @@
-from main.common.domain.schema_type import SchemaType
+from ....common.domain.schema_type import SchemaType
 from marshmallow_dataclass import dataclass
 
 
@@ -8,7 +8,6 @@ class RawTelemetryMsg(SchemaType):
 
     customerID: str
     deviceID: str
-    depth: int  # TODO: check this is an int in C++
+    depth: int
     messageCount: int
-    # periodName: str  # TODO: remove from c++
     # include timestamp?? for delayed messages?? it does connect to a time server
