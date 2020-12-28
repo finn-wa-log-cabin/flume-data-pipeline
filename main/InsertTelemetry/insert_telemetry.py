@@ -1,6 +1,8 @@
+from base64 import b64decode
 from datetime import datetime
 
 from azure.functions import EventGridEvent
+
 from ..common.domain.messages.raw_telemetry import RawTelemetryMsg
 from ..common.domain.tables.device_telemetry import *
 from ..common.utils.time import timestamp
@@ -16,9 +18,10 @@ def main(event: EventGridEvent) -> str:
 
     Returns: The serialised row to be inserted into the DeviceTelemetry table.
     """
-    message: RawTelemetryMsg = RawTelemetryMsg.Schema().loads(event.get_json())
+    body = b64decode(event.get_json()["body"])
+    message: RawTelemetryMsg = RawTelemetryMsg.Schema().loads(body)
 
-    event_time = event.event_time()
+    event_time = event.event_time
     if event_time is None:
         event_time = datetime.utcnow()
 

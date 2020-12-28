@@ -1,6 +1,11 @@
 {
-  "messageCount": 12,
-  "customerID": "TestCustomer",
-  "deviceID": "TestDevice1",
-  "depth": 100
+  "properties": {},
+  "systemProperties": {
+    "iothub-connection-device-id": "TestDevice1",
+    "iothub-connection-auth-method": "{\"scope\":\"device\",\"type\":\"sas\",\"issuer\":\"iothub\",\"acceptingIpFilterRule\":null}",
+    "iothub-connection-auth-generation-id": "637196041095778664",
+    "iothub-enqueuedtime": "2020-12-27T09:08:32.196Z",
+    "iothub-message-source": "Telemetry"
+  },
+  "body": "ewogICJtZXNzYWdlQ291bnQiOiAyNCwKICAiY3VzdG9tZXJJRCI6ICJUZXN0Q3VzdG9tZXIiLAogICJkZXZpY2VJRCI6ICJUZXN0RGV2aWNlMSIsCiAgImRlcHRoIjogMzAwCn0K"
 }
