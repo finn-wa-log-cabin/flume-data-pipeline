@@ -4,10 +4,11 @@ import main.common.utils.time as time_utils
 from dateutil.tz.tz import tzoffset
 from dateutil import tz
 
+NZDT = tzoffset("NZDT", timedelta(hours=13).seconds)
+
 
 def test_timestamp_nzdt():
-    nzdt = tzoffset("NZDT", timedelta(hours=13).seconds)
-    dt = datetime(2009, 2, 14, 12, 31, 31, 11000, tzinfo=nzdt)
+    dt = datetime(2009, 2, 14, 12, 31, 31, 11000, tzinfo=NZDT)
     assert time_utils.timestamp(dt) == 1234567891011
 
 
@@ -17,9 +18,8 @@ def test_timestamp_utc():
 
 
 def test_start_of_day_nzdt():
-    nzdt = tzoffset("NZDT", timedelta(hours=13).seconds)
-    dt = datetime(2009, 2, 13, 1, 1, 1, 11000, tzinfo=nzdt)
-    assert time_utils.start_of_day(dt) == datetime(2009, 2, 13, tzinfo=nzdt)
+    dt = datetime(2009, 2, 13, 1, 1, 1, 11000, tzinfo=NZDT)
+    assert time_utils.start_of_day(dt) == datetime(2009, 2, 13, tzinfo=NZDT)
 
 
 def test_start_of_day_no_tz():

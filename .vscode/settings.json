@@ -17,5 +17,16 @@
     "**/.pytest_cache": true,
     "**/*.egg-info": true
   },
-  "autoDocstring.customTemplatePath": "docs/docstring.mustache"
+  "autoDocstring.customTemplatePath": "docs/docstring.mustache",
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#01579b",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#0173ce",
+    "tab.activeBorder": "#0173ce",
+    "titleBar.activeBackground": "#01579b",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#01579b99",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#01579B"
 }

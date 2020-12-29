@@ -16,12 +16,12 @@ def timestamp(dt: datetime) -> int:
 
 def as_utc(dt: datetime) -> datetime:
     """Returns the datetime object with a UTC timezone.
-    Date and time data is adjusted so that the UTC timestamp remains the same.
+    Date and time data is adjusted so that the timestamp remains the same.
 
     Args:
     - dt: The datetime
 
-    Returns: A datetime with the same instant, with the timezone set to UTC
+    Returns: A datetime with the same timestamp, with the timezone set to UTC
     """
     dt = utils.default_tzinfo(dt, tz.UTC)
     return dt.astimezone(tz.UTC)

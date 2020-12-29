@@ -1,7 +1,7 @@
 import logging
 from typing import List
 
-from ..common.domain.messages.raw_telemetry import RawTelemetryMsg
+from ..common.domain.messages.telemetry_msg import TelemetryMsg
 from ..common.domain.messages.summary import DeviceSummaryRequest
 from ..common.domain.tables.device_telemetry import DeviceTelemetry
 
@@ -17,7 +17,7 @@ def main(requestMsg: str, dataJson: str) -> str:
     Returns: A single serialised DeviceTelemetry row as a summary
     """
     request: DeviceSummaryRequest = DeviceSummaryRequest.Schema().loads(requestMsg)
-    data: List[RawTelemetryMsg] = RawTelemetryMsg.Schema(many=True).loads(dataJson)
+    data: List[TelemetryMsg] = TelemetryMsg.Schema(many=True).loads(dataJson)
 
     depth_readings = [d.depth for d in data]
     if len(depth_readings) == 0:

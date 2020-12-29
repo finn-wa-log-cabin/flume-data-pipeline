@@ -3,11 +3,11 @@ from marshmallow_dataclass import dataclass
 
 
 @dataclass
-class RawTelemetryMsg(SchemaType):
+class TelemetryMsg(SchemaType):
     """The JSON telemetry message received from a device."""
 
     customerID: str
     deviceID: str
     depth: int
     messageCount: int
-    # include timestamp?? for delayed messages?? it does connect to a time server
+    timestamp: int
