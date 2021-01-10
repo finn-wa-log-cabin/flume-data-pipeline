@@ -4,6 +4,7 @@
 
 azure-functions
 azure-cosmosdb-table
-python-dateutil
 marshmallow
 marshmallow-dataclass[enum]
+pandas
+python-dateutil

@@ -38,4 +38,3 @@ class DeviceSummaryRequest(SchemaType):
     endTimestamp: int
     readPartition: str
     writePartition: str
-    writeRow: int

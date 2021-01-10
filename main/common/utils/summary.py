@@ -6,8 +6,8 @@ from ...common.domain.messages.summary import *
 from ...common.domain.messages.timer_request import TimerRequest
 from ...common.domain.tables.device import Device
 from ...common.domain.tables.device_telemetry import DeviceTelemetry
+from ...common.domain.tables.summary import Summary
 from ...common.utils.time import *
-from ...InsertTelemetry.insert_telemetry import RAW_TELEMETRY
 
 
 def device_summary_req_msgs(timerJson: str, devicesJson: str, period: SummaryPeriod) -> str:
@@ -43,12 +43,7 @@ def device_summmary_request(request: SummaryRequest, device: Device) -> DeviceSu
         period=request.period,
         startTimestamp=timestamp(request.startTime),
         endTimestamp=timestamp(request.endTime),
-        readPartition=DeviceTelemetry.partition_key(
-            device.customerID, device.deviceID, RAW_TELEMETRY
-        ),
-        writePartition=DeviceTelemetry.partition_key(
-            device.customerID, device.deviceID, request.period
-        ),
-        writeRow=DeviceTelemetry.row_key(request.endTime),
+        readPartition=DeviceTelemetry.partition_key(device.customerID, device.deviceID),
+        writePartition=Summary.partition_key(device.customerID, device.deviceID, request.period),
         device=device,
     )

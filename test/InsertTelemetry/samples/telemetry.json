@@ -7,5 +7,5 @@
     "iothub-enqueuedtime": "2020-12-27T09:08:32.196Z",
     "iothub-message-source": "Telemetry"
   },
-  "body": "ewogICJtZXNzYWdlQ291bnQiOiAyNCwKICAiY3VzdG9tZXJJRCI6ICJUZXN0Q3VzdG9tZXIiLAogICJkZXZpY2VJRCI6ICJUZXN0RGV2aWNlMSIsCiAgImRlcHRoIjogMzAwLAogICJ0aW1lc3RhbXAiOiAxNjAyNDk1MjI4NDExCn0K"
+  "body": "to be replaced in tests by a base64-encoded version of body.json"
 }

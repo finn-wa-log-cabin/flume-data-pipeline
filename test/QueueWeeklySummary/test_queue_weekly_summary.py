@@ -28,5 +28,5 @@ def test_queue_weekly_summary():
         assert req["endTimestamp"] == expected_end
         d = devices[i]
         assert req["device"] == d
-        assert req["readPartition"] == f"{d['customerID']}_{d['deviceID']}_Raw"
+        assert req["readPartition"] == f"{d['customerID']}_{d['deviceID']}"
         assert req["writePartition"] == f"{d['customerID']}_{d['deviceID']}_Weekly"

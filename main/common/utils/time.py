@@ -14,6 +14,18 @@ def timestamp(dt: datetime) -> int:
     return round(dt.timestamp() * 1000)
 
 
+def fromtimestamp(ts: int) -> datetime:
+    """Returns a datetime constructed from a Unix timestamp with millisecond
+    precision.
+
+    Args:
+    - ts: The timestamp
+
+    Returns: The datetime
+    """
+    return datetime.fromtimestamp(float(ts / 1000), tz=tz.UTC)
+
+
 def as_utc(dt: datetime) -> datetime:
     """Returns the datetime object with a UTC timezone.
     Date and time data is adjusted so that the timestamp remains the same.
