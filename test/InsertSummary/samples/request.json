@@ -1,0 +1,14 @@
+{
+  "readPartition": "TestCustomer1_TestDevice1",
+  "writePartition": "TestCustomer1_TestDevice1_Daily",
+  "startTimestamp": 1602979200000,
+  "endTimestamp": 1610236800000,
+  "device": {
+    "tankDepth": 1234,
+    "RowKey": "TestDevice1",
+    "customerID": "TestCustomer1",
+    "deviceID": "TestDevice1",
+    "PartitionKey": "TestCustomer1"
+  },
+  "period": { "days": 1, "name": "Daily" }
+}

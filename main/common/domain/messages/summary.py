@@ -3,6 +3,7 @@ from datetime import datetime
 from ....common.domain.schema_type import SchemaType
 from ....common.domain.tables.device import Device
 from marshmallow_dataclass import dataclass
+from enum import Enum
 
 
 @dataclass
@@ -11,6 +12,11 @@ class SummaryPeriod(SchemaType):
 
     name: str
     days: int
+
+
+class SummaryTimespan(Enum):
+    WEEKLY = "W-MON"
+    DAILY = "D"
 
 
 @dataclass

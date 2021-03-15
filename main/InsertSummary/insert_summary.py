@@ -1,7 +1,8 @@
-import logging
-from typing import List
+from datetime import datetime
+from main.common.domain.tables.summary import Summary
+import pandas as pd
 
-from ..common.domain.messages.telemetry_msg import TelemetryMsg
+from pandas.core.frame import DataFrame
 from ..common.domain.messages.summary import DeviceSummaryRequest
 from ..common.domain.tables.device_telemetry import DeviceTelemetry
 
@@ -12,26 +13,26 @@ def main(requestMsg: str, dataJson: str) -> str:
 
     Args:
     - requestMsg: The serialised DeviceSummaryRequest
-    - dataJson: The serialised list of raw telemetry readings
+    - dataJson: The serialised list of DeviceTelemetry readings
 
-    Returns: A single serialised DeviceTelemetry row as a summary
+    Returns: An array of serialised Summary rows
     """
-    request: DeviceSummaryRequest = DeviceSummaryRequest.Schema().loads(requestMsg)
-    data: List[TelemetryMsg] = TelemetryMsg.Schema(many=True).loads(dataJson)
+    summary_req = DeviceSummaryRequest.Schema().loads(requestMsg)
+    data: DataFrame = pd.read_json(
+        dataJson,
+        typ="frame",
+        orient="records",
+        convert_dates=["eventTimestamp"],
+        date_unit="ms",
+    ).set_index("eventTimestamp")
 
-    depth_readings = [d.depth for d in data]
-    if len(depth_readings) == 0:
-        logging.warn(f"No valid readings for summary request {requestMsg}")
-    elif len(depth_readings) != len(data):
-        logging.warn(f"Discarded invalid readings from {data} to produce {depth_readings}")
-    else:
-        summary = DeviceTelemetry(
-            PartitionKey=request.writePartition,
-            RowKey=request.writeRow,
-            deviceID=request.device.deviceID,
-            customerID=request.device.customerID,
-            depth=sum(depth_readings) / len(depth_readings),
-            period=request.period,
-            numReadings=len(depth_readings),
-        )
-        return DeviceTelemetry.Schema().dumps(summary)
+    binned_averages = data["depth"].resample("W-MON").mean()
+    summaries = [
+        create_summary(timestamp, depth, summary_req)
+        for timestamp, depth in binned_averages.items()
+    ]
+    return Summary.Schema().dumps(summaries, many=True)
+
+
+def create_summary(timestamp: datetime, depth: float, request: DeviceSummaryRequest) -> Summary:
+    return {}  # TODO implement
