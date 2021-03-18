@@ -1,7 +1,8 @@
-from ....common.domain.schema_type import SchemaType
-from marshmallow_dataclass import dataclass
 from datetime import datetime
-from dataclasses import field
+
+from marshmallow_dataclass import dataclass
+
+from ..schema_type import SchemaType
 
 
 @dataclass

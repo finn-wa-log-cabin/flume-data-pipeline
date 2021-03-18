@@ -1,5 +1,6 @@
-from ....common.domain.tables.table_schema import TableSchema
 from marshmallow_dataclass import dataclass
+
+from .table_schema import TableSchema
 
 
 @dataclass

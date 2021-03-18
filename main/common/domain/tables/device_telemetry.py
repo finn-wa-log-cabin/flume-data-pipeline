@@ -1,15 +1,15 @@
 from datetime import datetime
 
-from ....common.domain.messages.summary import SummaryPeriod
-from ....common.domain.tables.table_schema import TableSchema
-from ....common.utils.time import timestamp
 from marshmallow_dataclass import dataclass
+
+from ...utils.time import timestamp
+from .table_schema import TableSchema
 
 
 @dataclass
 class DeviceTelemetry(TableSchema):
     """The schema for the DeviceTelemetry table.
-    Stores raw and average readings from devices.
+    Stores raw readings from devices.
     """
 
     customerID: str
