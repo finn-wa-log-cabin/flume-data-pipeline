@@ -1,9 +1,10 @@
 from datetime import datetime
 
-from ....common.domain.messages.summary import SummaryPeriod
-from ....common.domain.tables.table_schema import TableSchema
-from ....common.utils.time import dateint
 from marshmallow_dataclass import dataclass
+
+from ...utils.time import dateint
+from ..summary_timespan import SummaryTimespan
+from .table_schema import TableSchema
 
 
 @dataclass
@@ -14,43 +15,41 @@ class Summary(TableSchema):
 
     customerID: str
     deviceID: str
+    timespan: SummaryTimespan
     startTime: datetime
-    endTime: datetime
-    period: SummaryPeriod
     meanDepth: float
-    numReadings: int
 
     @classmethod
     def new(cls, **fields):
-        """Creates a new DeviceTelemetry object, automatically generating values
+        """Creates a new Summary object, automatically generating values
         for PartitionKey & RowKey.
 
         Args:
         - fields: Values for class fields (excluding PartitionKey & RowKey).
 
-        Returns: A new DeviceTelemetry object.
+        Returns: A new Summary object.
         """
 
         return cls(
             PartitionKey=cls.partition_key(
-                fields["customerID"], fields["deviceID"], fields["period"]
+                fields["customerID"], fields["deviceID"], fields["timespan"]
             ),
-            RowKey=fields["startTime"],
+            RowKey=cls.row_key(fields["startTime"]),
             **fields,
         )
 
     @staticmethod
-    def partition_key(customerID: str, deviceID: str, period: SummaryPeriod) -> str:
-        """Creates the partition key for a DeviceTelemetry row.
+    def partition_key(customerID: str, deviceID: str, timespan: SummaryTimespan) -> str:
+        """Creates the partition key for a Summary row.
 
         Args:
         - customerID: The customer ID.
         - deviceID: The device ID.
-        - period: The SummaryPeriod for the depth value.
+        - timespan: The timespan that this summary covers.
 
         Returns: The partition key.
         """
-        return f"{customerID}_{deviceID}_{period.name}"
+        return f"{customerID}_{deviceID}_{timespan.name}"
 
     @staticmethod
     def row_key(start_time: datetime) -> str:

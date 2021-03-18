@@ -1,10 +1,8 @@
-from datetime import datetime
-from main.common.domain.tables.summary import Summary
 import pandas as pd
-
+from main.common.domain.tables.summary import Summary
 from pandas.core.frame import DataFrame
-from ..common.domain.messages.summary import DeviceSummaryRequest
-from ..common.domain.tables.device_telemetry import DeviceTelemetry
+
+from ..common.domain.messages.summary_request import DeviceSummaryRequest
 
 
 def main(requestMsg: str, dataJson: str) -> str:
@@ -17,7 +15,7 @@ def main(requestMsg: str, dataJson: str) -> str:
 
     Returns: An array of serialised Summary rows
     """
-    summary_req = DeviceSummaryRequest.Schema().loads(requestMsg)
+    request: DeviceSummaryRequest = DeviceSummaryRequest.Schema().loads(requestMsg)
     data: DataFrame = pd.read_json(
         dataJson,
         typ="frame",
@@ -26,13 +24,22 @@ def main(requestMsg: str, dataJson: str) -> str:
         date_unit="ms",
     ).set_index("eventTimestamp")
 
-    binned_averages = data["depth"].resample("W-MON").mean()
+    binned_averages = data["depth"].resample(request.timespan.value, label="left").mean()
     summaries = [
-        create_summary(timestamp, depth, summary_req)
-        for timestamp, depth in binned_averages.items()
+        create_summary(start_time, depth, request) for start_time, depth in binned_averages.items()
     ]
     return Summary.Schema().dumps(summaries, many=True)
 
 
-def create_summary(timestamp: datetime, depth: float, request: DeviceSummaryRequest) -> Summary:
-    return {}  # TODO implement
+def create_summary(
+    start_time: pd.Timestamp, depth: float, request: DeviceSummaryRequest
+) -> Summary:
+    return Summary.new(
+        **{
+            "customerID": request.device.customerID,
+            "deviceID": request.device.deviceID,
+            "timespan": request.timespan,
+            "startTime": start_time.to_pydatetime(),
+            "meanDepth": depth,
+        }
+    )

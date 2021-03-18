@@ -1,32 +1,20 @@
 from datetime import datetime
 
-from ....common.domain.schema_type import SchemaType
-from ....common.domain.tables.device import Device
 from marshmallow_dataclass import dataclass
-from enum import Enum
 
-
-@dataclass
-class SummaryPeriod(SchemaType):
-    """A period of time for a summary."""
-
-    name: str
-    days: int
-
-
-class SummaryTimespan(Enum):
-    WEEKLY = "W-MON"
-    DAILY = "D"
+from ..schema_type import SchemaType
+from ..summary_timespan import SummaryTimespan
+from ..tables.device import Device
 
 
 @dataclass
 class SummaryRequest(SchemaType):
-    """A request for a summary.
+    """A request for a summary across all devices.
     A summary contains the average depth reading for a device over a given
-    period. It is inserted into the DeviceTelemetry table.
+    timespan. It is inserted into the DeviceTelemetry table.
     """
 
-    period: SummaryPeriod
+    timespan: SummaryTimespan
     startTime: datetime
     endTime: datetime
 
@@ -38,7 +26,7 @@ class DeviceSummaryRequest(SchemaType):
     summarise.
     """
 
-    period: SummaryPeriod
+    timespan: SummaryTimespan
     device: Device
     startTimestamp: int
     endTimestamp: int

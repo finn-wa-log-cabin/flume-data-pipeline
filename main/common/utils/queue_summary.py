@@ -2,15 +2,16 @@ import logging
 from typing import List
 
 from dateutil import tz, utils
-from ...common.domain.messages.summary import *
-from ...common.domain.messages.timer_request import TimerRequest
-from ...common.domain.tables.device import Device
-from ...common.domain.tables.device_telemetry import DeviceTelemetry
-from ...common.domain.tables.summary import Summary
-from ...common.utils.time import *
+
+from ..domain.messages.summary_request import *
+from ..domain.messages.timer_request import TimerRequest
+from ..domain.tables.device import Device
+from ..domain.tables.device_telemetry import DeviceTelemetry
+from ..domain.tables.summary import Summary
+from .time import *
 
 
-def device_summary_req_msgs(timerJson: str, devicesJson: str, period: SummaryPeriod) -> str:
+def device_summary_req_msgs(timerJson: str, devicesJson: str, timespan: SummaryTimespan) -> str:
     """Generates a list of serialised DeviceSummaryRequests.
     This function can be used to fan out a single SummaryRequest.
 
@@ -18,7 +19,7 @@ def device_summary_req_msgs(timerJson: str, devicesJson: str, period: SummaryPer
     - timerJson: Serialised TimerRequest which triggered the SummaryRequest
     - devicesJson: Serialized list of Devices which DeviceSummaryRequests should
         be created for
-    - period: Period to summarise
+    - timespan: The timespan to bin data in before summarising
 
     Returns: A list of serialised DeviceSummaryRequests.
     """
@@ -26,10 +27,10 @@ def device_summary_req_msgs(timerJson: str, devicesJson: str, period: SummaryPer
     devices: List[Device] = Device.Schema(many=True).loads(devicesJson)
 
     if timer.IsPastDue:
-        logging.warn(f"{period.name} timer is past due!")
+        logging.warn(f"{timespan.name} timer is past due!")
 
     request = SummaryRequest(
-        period=period,
+        timespan=timespan,
         startTime=start_of_day(as_utc(timer.ScheduleStatus.Last)),
         endTime=start_of_day(utils.today(tz.UTC)),
     )
@@ -40,10 +41,10 @@ def device_summary_req_msgs(timerJson: str, devicesJson: str, period: SummaryPer
 
 def device_summmary_request(request: SummaryRequest, device: Device) -> DeviceSummaryRequest:
     return DeviceSummaryRequest(
-        period=request.period,
+        timespan=request.timespan,
         startTimestamp=timestamp(request.startTime),
         endTimestamp=timestamp(request.endTime),
         readPartition=DeviceTelemetry.partition_key(device.customerID, device.deviceID),
-        writePartition=Summary.partition_key(device.customerID, device.deviceID, request.period),
+        writePartition=Summary.partition_key(device.customerID, device.deviceID, request.timespan),
         device=device,
     )

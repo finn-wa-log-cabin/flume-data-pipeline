@@ -1,7 +1,6 @@
-from ..common.domain.messages.summary import SummaryPeriod
-from ..common.utils.summary import device_summary_req_msgs
+from main.common.domain.summary_timespan import SummaryTimespan
 
-WEEKLY_PERIOD = SummaryPeriod("Weekly", 7)
+from ..common.utils.queue_summary import device_summary_req_msgs
 
 
 def main(timerJson: str, devicesJson: str):
@@ -14,4 +13,4 @@ def main(timerJson: str, devicesJson: str):
 
     Returns: A list of serialised DeviceSummaryRequests
     """
-    return device_summary_req_msgs(timerJson, devicesJson, WEEKLY_PERIOD)
+    return device_summary_req_msgs(timerJson, devicesJson, SummaryTimespan.WEEKLY)

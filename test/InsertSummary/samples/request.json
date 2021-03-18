@@ -1,6 +1,6 @@
 {
   "readPartition": "TestCustomer1_TestDevice1",
-  "writePartition": "TestCustomer1_TestDevice1_Daily",
+  "writePartition": "TestCustomer1_TestDevice1_DAILY",
   "startTimestamp": 1602979200000,
   "endTimestamp": 1610236800000,
   "device": {
@@ -10,5 +10,5 @@
     "deviceID": "TestDevice1",
     "PartitionKey": "TestCustomer1"
   },
-  "period": { "days": 1, "name": "Daily" }
+  "timespan": "MONTHLY"
 }
