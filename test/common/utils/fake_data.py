@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta
-from main.common.utils.time import timestamp
-from typing import List
-from main.common.domain.tables.device_telemetry import DeviceTelemetry
 from random import randrange
+from typing import List
+
+from main.common.domain.tables.device_telemetry import DeviceTelemetry
+from main.common.utils.time import timestamp
 
 CUSTOMER_ID = "FakeCustomer1"
 DEVICE_ID = "FakeDevice1"

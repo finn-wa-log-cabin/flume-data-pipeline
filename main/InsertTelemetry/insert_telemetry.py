@@ -1,5 +1,6 @@
-from base64 import b64decode
 import json
+from base64 import b64decode
+
 from azure.functions import EventGridEvent
 
 from ..common.domain.tables.device_telemetry import DeviceTelemetry

@@ -19,20 +19,25 @@ class DeviceTelemetry(TableSchema):
     eventTimestamp: int
 
     @classmethod
-    def new(cls, **fields):
+    def new(
+        cls, customerID: str, deviceID: str, depth: int, messageCount: int, eventTimestamp: int
+    ):
         """Creates a new DeviceTelemetry object, automatically generating values
         for PartitionKey & RowKey.
 
-        Args:
-        - fields: Values for class fields (excluding PartitionKey & RowKey).
+        Args: Values for class fields (excluding PartitionKey & RowKey).
 
         Returns: A new DeviceTelemetry object.
         """
 
         return cls(
-            PartitionKey=cls.partition_key(fields["customerID"], fields["deviceID"]),
-            RowKey=str(fields["eventTimestamp"]),
-            **fields,
+            PartitionKey=cls.partition_key(customerID, deviceID),
+            RowKey=str(eventTimestamp),
+            customerID=customerID,
+            deviceID=deviceID,
+            depth=depth,
+            messageCount=messageCount,
+            eventTimestamp=eventTimestamp,
         )
 
     @staticmethod

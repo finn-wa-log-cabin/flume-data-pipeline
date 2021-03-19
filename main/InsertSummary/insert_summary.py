@@ -35,11 +35,9 @@ def create_summary(
     start_time: pd.Timestamp, depth: float, request: DeviceSummaryRequest
 ) -> Summary:
     return Summary.new(
-        **{
-            "customerID": request.device.customerID,
-            "deviceID": request.device.deviceID,
-            "timespan": request.timespan,
-            "startTime": start_time.to_pydatetime(),
-            "meanDepth": depth,
-        }
+        start_time=start_time.to_pydatetime(),
+        customerID=request.device.customerID,
+        deviceID=request.device.deviceID,
+        timespan=request.timespan,
+        meanDepth=depth,
     )

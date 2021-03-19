@@ -2,7 +2,7 @@ from datetime import datetime
 
 from marshmallow_dataclass import dataclass
 
-from ...utils.time import dateint
+from ...utils.time import dateint, timestamp
 from ..summary_timespan import SummaryTimespan
 from .table_schema import TableSchema
 
@@ -16,26 +16,33 @@ class Summary(TableSchema):
     customerID: str
     deviceID: str
     timespan: SummaryTimespan
-    startTime: datetime
+    startTimestamp: int
     meanDepth: float
 
     @classmethod
-    def new(cls, **fields):
+    def new(
+        cls,
+        start_time: datetime,
+        customerID: str,
+        deviceID: str,
+        timespan: SummaryTimespan,
+        meanDepth: float,
+    ):
         """Creates a new Summary object, automatically generating values
         for PartitionKey & RowKey.
 
-        Args:
-        - fields: Values for class fields (excluding PartitionKey & RowKey).
+        Args: Values for class fields (excluding PartitionKey & RowKey).
 
         Returns: A new Summary object.
         """
-
         return cls(
-            PartitionKey=cls.partition_key(
-                fields["customerID"], fields["deviceID"], fields["timespan"]
-            ),
-            RowKey=cls.row_key(fields["startTime"]),
-            **fields,
+            PartitionKey=cls.partition_key(customerID, deviceID, timespan),
+            RowKey=cls.row_key(start_time),
+            customerID=customerID,
+            deviceID=deviceID,
+            timespan=timespan,
+            startTimestamp=timestamp(start_time),
+            meanDepth=meanDepth,
         )
 
     @staticmethod
