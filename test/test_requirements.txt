@@ -1,3 +1,8 @@
+# Run from root dir: pip install -r ./test/test_requirements.txt
 pytest-dependency
 pytest-mock
 pytest-cov
+flake8
+mypy
+# Installs repo as a package
+.

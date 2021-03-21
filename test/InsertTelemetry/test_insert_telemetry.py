@@ -8,7 +8,7 @@ from pytest_mock.plugin import MockerFixture
 SAMPLES_PATH = "test/InsertTelemetry/samples/"
 
 
-def get_mock_event(mocker: MockerFixture) -> any:
+def get_mock_event(mocker: MockerFixture):
     telemetry = load_json(SAMPLES_PATH + "telemetry.json")
     body = load_text(SAMPLES_PATH + "body.json")
     telemetry["body"] = b64encode(body.encode()).decode()

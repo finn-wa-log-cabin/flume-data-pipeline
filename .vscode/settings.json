@@ -7,7 +7,7 @@
   "azureFunctions.projectSubpath": "main",
   "debug.internalConsoleOptions": "neverOpen",
   "python.testing.cwd": "",
-  "python.pythonPath": "c:\\Users\\Finn\\Desktop\\water-tank-monitor-devops\\.venv\\Scripts\\python.exe",
+  "python.pythonPath": ".venv\\Scripts\\python.exe",
   "python.testing.pytestPath": "C:\\Users\\Finn\\Desktop\\water-tank-monitor-devops\\.venv\\Scripts\\pytest.exe",
   "python.testing.unittestEnabled": false,
   "python.testing.nosetestsEnabled": false,
@@ -17,7 +17,7 @@
     "**/.pytest_cache": true,
     "**/*.egg-info": true
   },
-  "autoDocstring.customTemplatePath": "docs/docstring.mustache",
+  "autoDocstring.customTemplatePath": "configs/docstring.mustache",
   "workbench.colorCustomizations": {
     "statusBar.background": "#01579b",
     "statusBar.foreground": "#e7e7e7",
