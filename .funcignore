@@ -1,0 +1,9 @@
+.git*
+.vscode
+.pytest_cache
+.venv
+.vscode
+dev
+docs
+local.settings.json
+test

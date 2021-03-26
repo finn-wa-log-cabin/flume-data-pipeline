@@ -1,11 +1,12 @@
 import json
 from datetime import datetime, timedelta
 
-import main.QueueWeeklySummary.queue_weekly_summary as qws
 from dateutil import tz, utils
 from dateutil.tz.tz import tzoffset
-from main.common.utils.files import *
-from main.common.utils.time import as_utc, start_of_day, timestamp
+from shared.utils.files import *
+from shared.utils.time import as_utc, start_of_day, timestamp
+
+from QueueWeeklySummary import queue_weekly_summary as qws
 
 SAMPLES_PATH = "test/QueueWeeklySummary/samples/"
 
@@ -14,7 +15,9 @@ def test_queue_weekly_summary():
     timer_json = load_text(SAMPLES_PATH + "timer.json")
     devices_json = load_text(SAMPLES_PATH + "devices.json")
     nzdt = tzoffset("NZDT", timedelta(hours=13))
-    expected_start = timestamp(start_of_day(as_utc(datetime(2020, 10, 19, tzinfo=nzdt))))
+    expected_start = timestamp(
+        start_of_day(as_utc(datetime(2020, 10, 19, tzinfo=nzdt)))
+    )
     expected_end = timestamp(utils.today(tzinfo=tz.UTC))
 
     requests = json.loads(qws.main(timer_json, devices_json))

@@ -1,23 +1,24 @@
 {
-  "azureFunctions.deploySubpath": "main",
+  "azureFunctions.deploySubpath": ".",
   "azureFunctions.scmDoBuildDuringDeployment": true,
-  "azureFunctions.pythonVenv": "../.venv",
+  "azureFunctions.pythonVenv": ".venv",
   "azureFunctions.projectLanguage": "Python",
   "azureFunctions.projectRuntime": "~3",
-  "azureFunctions.projectSubpath": "main",
   "debug.internalConsoleOptions": "neverOpen",
-  "python.testing.cwd": "",
   "python.pythonPath": ".venv\\Scripts\\python.exe",
-  "python.testing.pytestPath": "C:\\Users\\Finn\\Desktop\\water-tank-monitor-devops\\.venv\\Scripts\\pytest.exe",
+  "python.testing.pytestPath": ".venv\\Scripts\\pytest.exe",
   "python.testing.unittestEnabled": false,
   "python.testing.nosetestsEnabled": false,
   "python.testing.pytestEnabled": true,
   "files.exclude": {
-    "**/__pycache__": true,
-    "**/.pytest_cache": true,
-    "**/*.egg-info": true
+    "**/.DS_Store": false,
+    "**/.git": false,
+    "**/.hg": false,
+    "**/.svn": false,
+    "**/*__pycache__": true,
+    "**/CVS": false
   },
-  "autoDocstring.customTemplatePath": "configs/docstring.mustache",
+  "autoDocstring.customTemplatePath": "dev/docstring.mustache",
   "workbench.colorCustomizations": {
     "statusBar.background": "#01579b",
     "statusBar.foreground": "#e7e7e7",

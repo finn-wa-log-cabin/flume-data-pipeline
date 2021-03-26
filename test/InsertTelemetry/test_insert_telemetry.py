@@ -1,9 +1,10 @@
 import json
 from base64 import b64encode
 
-import main.InsertTelemetry.insert_telemetry as it
-from main.common.utils.files import *
 from pytest_mock.plugin import MockerFixture
+from shared.utils.files import *
+
+from InsertTelemetry import insert_telemetry
 
 SAMPLES_PATH = "test/InsertTelemetry/samples/"
 
@@ -19,7 +20,7 @@ def get_mock_event(mocker: MockerFixture):
 
 def test_insert_telemetry(mocker: MockerFixture):
     event = get_mock_event(mocker)
-    row = it.main(event)
+    row = insert_telemetry.main(event)
     row_dict = json.loads(row)
     assert row_dict["PartitionKey"] == "TestCustomer_TestDevice1"
     assert row_dict["RowKey"] == "1602495228411"
