@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Run from root of repo
+python -m venv .venv
+. ./venv/Scripts/activate
+pip install --upgrade pip
+pip install -r requirements.txt -r test/test_requirements.txt -r dev/dev_requirements.txt -e .
