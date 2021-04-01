@@ -8,6 +8,7 @@ class SummaryTimespan(Enum):
     https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects
     """
 
+    HOURLY = "H"
     DAILY = "D"
     WEEKLY = "W-MON"
     MONTHLY = "MS"

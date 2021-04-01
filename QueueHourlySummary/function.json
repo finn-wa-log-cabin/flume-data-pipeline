@@ -1,0 +1,25 @@
+{
+  "scriptFile": "queue_daily_summary.py",
+  "bindings": [
+    {
+      "direction": "in",
+      "type": "timerTrigger",
+      "name": "timerJson",
+      "schedule": "0 0 * * * *"
+    },
+    {
+      "direction": "in",
+      "type": "table",
+      "name": "devicesJson",
+      "tableName": "Device",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "direction": "out",
+      "type": "queue",
+      "name": "$return",
+      "queueName": "summary-requests",
+      "connection": "AzureWebJobsStorage"
+    }
+  ]
+}
