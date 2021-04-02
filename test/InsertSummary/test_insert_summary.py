@@ -8,6 +8,20 @@ from InsertSummary import insert_summary
 
 SAMPLES_PATH = "test/InsertSummary/samples/"
 
+# How many records do we want to create in our CSV? In this example
+# we are generating 100, but you could also find relatively fast results generating
+# much larger datasets
+size = 100
+df = pd.DataFrame(columns=["First", "Last", "Gender", "Birthdate"])
+df["First"] = random_names("first_names", size)
+df["Last"] = random_names("last_names", size)
+df["Gender"] = random_genders(size)
+df["Birthdate"] = random_dates(
+    start=pd.to_datetime("1940-01-01"), end=pd.to_datetime("2008-01-01"), size=size
+)
+
+df.to_csv("fake-file.csv")
+
 
 def test_insert_summary():
     request_str = load_text(SAMPLES_PATH + "request.json")
