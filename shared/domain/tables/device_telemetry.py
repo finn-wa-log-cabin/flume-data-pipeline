@@ -1,8 +1,19 @@
 from datetime import datetime
+from typing import Any, Dict
 
+import shared.utils.time as time_utils
 from marshmallow_dataclass import dataclass
+from shared.domain.schema_type import SchemaType
 from shared.domain.tables.table_schema import TableSchema
-from shared.utils.time import timestamp
+
+
+@dataclass
+class SensorData(SchemaType):
+    """The readings from the device sensors."""
+
+    humidity: float
+    temperature: float
+    timestamp: int
 
 
 @dataclass
@@ -13,18 +24,17 @@ class DeviceTelemetry(TableSchema):
 
     customerID: str
     deviceID: str
-    depth: int
+    sensorData: SensorData
     messageCount: int
-    eventTimestamp: int
+    insertTimestamp: int
 
     @classmethod
     def new(
         cls,
         customerID: str,
         deviceID: str,
-        depth: int,
         messageCount: int,
-        eventTimestamp: int,
+        sensorData: Dict[str, Any],
     ):
         """Creates a new DeviceTelemetry object, automatically generating values
         for PartitionKey & RowKey.
@@ -33,15 +43,15 @@ class DeviceTelemetry(TableSchema):
 
         Returns: A new DeviceTelemetry object.
         """
-
+        sensor_data = SensorData(**sensorData)
         return cls(
             PartitionKey=cls.partition_key(customerID, deviceID),
-            RowKey=str(eventTimestamp),
+            RowKey=str(sensor_data.timestamp),
             customerID=customerID,
             deviceID=deviceID,
-            depth=depth,
+            sensorData=sensor_data,
             messageCount=messageCount,
-            eventTimestamp=eventTimestamp,
+            insertTimestamp=time_utils.timestamp(datetime.utcnow()),
         )
 
     @staticmethod
@@ -65,4 +75,4 @@ class DeviceTelemetry(TableSchema):
 
         Returns: A Unix timestamp in millisecond precision.
         """
-        return str(timestamp(dt))
+        return str(time_utils.timestamp(dt))

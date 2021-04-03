@@ -1,7 +1,11 @@
+from typing import Dict, List
+
 import pandas as pd
 from pandas.core.frame import DataFrame
 from shared.domain.messages.summary_request import DeviceSummaryRequest
+from shared.domain.tables.device_telemetry import DeviceTelemetry, SensorData
 from shared.domain.tables.summary import Summary
+from shared.utils.time import timestamp
 
 
 def main(requestMsg: str, dataJson: str) -> str:
@@ -15,31 +19,37 @@ def main(requestMsg: str, dataJson: str) -> str:
     Returns: An array of serialised Summary rows
     """
     request: DeviceSummaryRequest = DeviceSummaryRequest.Schema().loads(requestMsg)
-    data: DataFrame = pd.read_json(
-        dataJson,
-        typ="frame",
-        orient="records",
-        convert_dates=["eventTimestamp"],
-        date_unit="ms",
-    ).set_index("eventTimestamp")
-
-    binned_averages = (
-        data["depth"].resample(request.timespan.value, label="left").mean()
+    telemetry: List[DeviceTelemetry] = DeviceTelemetry.Schema().loads(
+        dataJson, many=True
     )
-    summaries = [
-        create_summary(start_time, depth, request)
-        for start_time, depth in binned_averages.items()
-    ]
+    dataframe = load_dataframe([t.sensorData for t in telemetry])
+    binned_mean: List[Dict] = (
+        dataframe.resample(request.timespan.value, label="left", closed="right")
+        .mean()
+        .reset_index()
+        .to_dict(orient="records")
+    )
+    summaries = [create_summary(mean_data, request) for mean_data in binned_mean]
     return Summary.Schema().dumps(summaries, many=True)
 
 
-def create_summary(
-    start_time: pd.Timestamp, depth: float, request: DeviceSummaryRequest
-) -> Summary:
+def load_dataframe(sensor_data: List[SensorData]) -> DataFrame:
+    df = DataFrame(sensor_data)
+    df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
+    return df.set_index("timestamp")
+
+
+def create_summary(mean_dict: dict, request: DeviceSummaryRequest) -> Summary:
+    start_time = timestamp(mean_dict["timestamp"].to_pydatetime())
+    mean_data = SensorData(
+        timestamp=start_time,
+        humidity=mean_dict["humidity"],
+        temperature=mean_dict["temperature"],
+    )
     return Summary.new(
-        start_time=start_time.to_pydatetime(),
         customerID=request.device.customerID,
         deviceID=request.device.deviceID,
         timespan=request.timespan,
-        meanDepth=depth,
+        startTimestamp=start_time,
+        meanData=mean_data,
     )

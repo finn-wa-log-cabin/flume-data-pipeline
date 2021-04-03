@@ -2,6 +2,9 @@
   "messageCount": 24,
   "customerID": "TestCustomer",
   "deviceID": "TestDevice1",
-  "depth": 300,
-  "eventTimestamp": 1602495228411
+  "sensorData": {
+    "humidity": 65.0,
+    "temperature": 25.2,
+    "timestamp": 1602495228411
+  }
 }

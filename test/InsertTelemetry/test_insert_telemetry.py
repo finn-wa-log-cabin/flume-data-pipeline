@@ -26,6 +26,7 @@ def test_insert_telemetry(mocker: MockerFixture):
     assert row_dict["RowKey"] == "1602495228411"
     assert row_dict["deviceID"] == "TestDevice1"
     assert row_dict["customerID"] == "TestCustomer"
-    assert row_dict["depth"] == 300
-    assert row_dict["eventTimestamp"] == 1602495228411
+    assert row_dict["sensorData"]["humidity"] == 65.0
+    assert row_dict["sensorData"]["temperature"] == 25.2
+    assert row_dict["sensorData"]["timestamp"] == 1602495228411
     assert row_dict["messageCount"] == 24

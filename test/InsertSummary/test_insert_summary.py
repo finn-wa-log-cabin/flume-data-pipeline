@@ -1,48 +1,72 @@
+import json
 from datetime import datetime
 from typing import Dict, List
 
-from shared.utils.files import *
-from shared.utils.time import timestamp
+import shared.utils.files as files
+import shared.utils.time as time
 
 from InsertSummary import insert_summary
 
 SAMPLES_PATH = "test/InsertSummary/samples/"
 
-# How many records do we want to create in our CSV? In this example
-# we are generating 100, but you could also find relatively fast results generating
-# much larger datasets
-size = 100
-df = pd.DataFrame(columns=["First", "Last", "Gender", "Birthdate"])
-df["First"] = random_names("first_names", size)
-df["Last"] = random_names("last_names", size)
-df["Gender"] = random_genders(size)
-df["Birthdate"] = random_dates(
-    start=pd.to_datetime("1940-01-01"), end=pd.to_datetime("2008-01-01"), size=size
-)
-
-df.to_csv("fake-file.csv")
-
 
 def test_insert_summary():
-    request_str = load_text(SAMPLES_PATH + "request.json")
-    data_str = load_text(SAMPLES_PATH + "data.json")
+    request_str = files.load_text(SAMPLES_PATH + "request.json")
+    data_str = files.load_text(SAMPLES_PATH + "data.json")
     summaries_str = insert_summary.main(request_str, data_str)
     summaries: List[Dict] = json.loads(summaries_str)
     assert len(summaries) == 3
-    assert summaries[0]["RowKey"] == "20200101"
-    assert summaries[0]["startTimestamp"] == timestamp(
-        datetime(year=2020, month=1, day=1)
-    )
-    assert summaries[1]["RowKey"] == "20200201"
-    assert summaries[1]["startTimestamp"] == timestamp(
-        datetime(year=2020, month=2, day=1)
-    )
-    assert summaries[2]["RowKey"] == "20200301"
-    assert summaries[2]["startTimestamp"] == timestamp(
-        datetime(year=2020, month=3, day=1)
-    )
+
+    jan_ts = time.timestamp(datetime(year=2020, month=1, day=1))
+    assert summaries[0]["RowKey"] == str(jan_ts)
+    assert summaries[0]["startTimestamp"] == jan_ts
+    assert summaries[0]["meanData"]["timestamp"] == jan_ts
+
+    feb_ts = time.timestamp(datetime(year=2020, month=2, day=1))
+    assert summaries[1]["RowKey"] == str(feb_ts)
+    assert summaries[1]["startTimestamp"] == feb_ts
+    assert summaries[1]["meanData"]["timestamp"] == feb_ts
+
+    mar_ts = time.timestamp(datetime(year=2020, month=3, day=1))
+    assert summaries[2]["RowKey"] == str(mar_ts)
+    assert summaries[2]["startTimestamp"] == mar_ts
+    assert summaries[2]["meanData"]["timestamp"] == mar_ts
+
     for summary in summaries:
         assert summary["customerID"] == "TestCustomer1"
         assert summary["deviceID"] == "TestDevice1"
         assert summary["timespan"] == "MONTHLY"
         assert summary["PartitionKey"] == "TestCustomer1_TestDevice1_MONTHLY"
+        assert 0 < summary["meanData"]["humidity"] < 100
+        assert 5 < summary["meanData"]["temperature"] < 30
+
+
+def test_mean_calculations():
+    request_str = files.load_text(SAMPLES_PATH + "request.json")
+    data_str = files.load_text(SAMPLES_PATH + "data.json")
+    data = json.loads(data_str)
+    summaries_str = insert_summary.main(request_str, data_str)
+    summaries: List[Dict] = json.loads(summaries_str)
+
+    humidity = "humidity"
+    temp = "temperature"
+    jan = time.timestamp(datetime(year=2020, month=1, day=1))
+    feb = time.timestamp(datetime(year=2020, month=2, day=1))
+    mar = time.timestamp(datetime(year=2020, month=3, day=1))
+    apr = time.timestamp(datetime(year=2020, month=4, day=1))
+
+    assert summaries[0]["meanData"][humidity] == get_mean(data, humidity, jan, feb)
+    assert summaries[0]["meanData"][temp] == get_mean(data, temp, jan, feb)
+    assert summaries[1]["meanData"][humidity] == get_mean(data, humidity, feb, mar)
+    assert summaries[1]["meanData"][temp] == get_mean(data, temp, feb, mar)
+    assert summaries[2]["meanData"][humidity] == get_mean(data, humidity, mar, apr)
+    assert summaries[2]["meanData"][temp] == get_mean(data, temp, mar, apr)
+
+
+def get_mean(data: List[Dict], key: str, start: int, end: int) -> float:
+    bin = [
+        d["sensorData"][key]
+        for d in data
+        if start <= d["sensorData"]["timestamp"] < end
+    ]
+    return sum(bin) / len(bin)

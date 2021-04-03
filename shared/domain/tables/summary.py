@@ -2,6 +2,7 @@ from datetime import datetime
 
 from marshmallow_dataclass import dataclass
 from shared.domain.summary_timespan import SummaryTimespan
+from shared.domain.tables.device_telemetry import SensorData
 from shared.domain.tables.table_schema import TableSchema
 from shared.utils.time import dateint, timestamp
 
@@ -16,16 +17,16 @@ class Summary(TableSchema):
     deviceID: str
     timespan: SummaryTimespan
     startTimestamp: int
-    meanDepth: float
+    meanData: SensorData
 
     @classmethod
     def new(
         cls,
-        start_time: datetime,
         customerID: str,
         deviceID: str,
         timespan: SummaryTimespan,
-        meanDepth: float,
+        startTimestamp: int,
+        meanData: SensorData,
     ):
         """Creates a new Summary object, automatically generating values
         for PartitionKey & RowKey.
@@ -36,12 +37,12 @@ class Summary(TableSchema):
         """
         return cls(
             PartitionKey=cls.partition_key(customerID, deviceID, timespan),
-            RowKey=cls.row_key(start_time),
+            RowKey=str(startTimestamp),
             customerID=customerID,
             deviceID=deviceID,
             timespan=timespan,
-            startTimestamp=timestamp(start_time),
-            meanDepth=meanDepth,
+            startTimestamp=startTimestamp,
+            meanData=meanData,
         )
 
     @staticmethod
@@ -59,11 +60,11 @@ class Summary(TableSchema):
 
     @staticmethod
     def row_key(start_time: datetime) -> str:
-        """Formats a datetime into a dateint for use as a RowKey.
+        """Formats a datetime into a timestamp for use as a RowKey.
 
         Args:
         - dt: The datetime that the message was received.
 
-        Returns: A dateint as a string (format YYYYMMDD)
+        Returns: A timestamp as a string
         """
-        return str(dateint(start_time))
+        return str(timestamp(start_time))

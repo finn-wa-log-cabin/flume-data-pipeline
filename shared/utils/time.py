@@ -5,18 +5,20 @@ from dateutil import tz, utils
 
 def timestamp(dt: datetime) -> int:
     """Returns the datetime as a Unix timestamp with millisecond precision.
+    Note that the timezone will be converted to UTC.
 
     Args:
     - dt: The datetime
 
     Returns: A timestamp
     """
-    return round(dt.timestamp() * 1000)
+    return round(as_utc(dt).timestamp() * 1000)
 
 
 def fromtimestamp(ts: int) -> datetime:
     """Returns a datetime constructed from a Unix timestamp with millisecond
     precision.
+    Assumes the timestamp was in UTC.
 
     Args:
     - ts: The timestamp
