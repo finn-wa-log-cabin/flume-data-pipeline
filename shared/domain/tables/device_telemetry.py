@@ -9,11 +9,18 @@ from shared.domain.tables.table_schema import TableSchema
 
 @dataclass
 class SensorData(SchemaType):
-    """The readings from the device sensors."""
+    """The readings from the device sensors.
+
+    Fields:
+    - humidity (float): The measured humidity as a percentage
+    - temperature (float): The temperature reading (°C)
+    - timestamp (str): The time that the readings were taken.
+        Stored in a millisecond-based Unix timestamp.
+    """
 
     humidity: float
     temperature: float
-    timestamp: int
+    timestamp: str
 
 
 @dataclass
@@ -26,6 +33,7 @@ class DeviceTelemetry(TableSchema):
     deviceID: str
     sensorData: SensorData
     messageCount: int
+    deviceTimestamp: int
     insertTimestamp: int
 
     @classmethod
@@ -46,11 +54,12 @@ class DeviceTelemetry(TableSchema):
         sensor_data = SensorData(**sensorData)
         return cls(
             PartitionKey=cls.partition_key(customerID, deviceID),
-            RowKey=str(sensor_data.timestamp),
+            RowKey=sensor_data.timestamp,
             customerID=customerID,
             deviceID=deviceID,
             sensorData=sensor_data,
             messageCount=messageCount,
+            deviceTimestamp=int(sensor_data.timestamp),
             insertTimestamp=time_utils.timestamp(datetime.utcnow()),
         )
 
