@@ -20,7 +20,7 @@ class SensorData(SchemaType):
 
     humidity: float
     temperature: float
-    timestamp: str
+    timestamp: int
 
 
 @dataclass
@@ -33,7 +33,7 @@ class DeviceTelemetry(TableSchema):
     deviceID: str
     sensorData: SensorData
     messageCount: int
-    deviceTimestamp: int
+    version: str
     insertTimestamp: int
 
     @classmethod
@@ -42,6 +42,7 @@ class DeviceTelemetry(TableSchema):
         customerID: str,
         deviceID: str,
         messageCount: int,
+        version: str,
         sensorData: Dict[str, Any],
     ):
         """Creates a new DeviceTelemetry object, automatically generating values
@@ -51,7 +52,11 @@ class DeviceTelemetry(TableSchema):
 
         Returns: A new DeviceTelemetry object.
         """
-        sensor_data = SensorData(**sensorData)
+        sensor_data = SensorData(
+            humidity=sensorData["humidity"],
+            temperature=sensorData["temperature"],
+            timestamp=int(sensorData["timestamp"]),
+        )
         return cls(
             PartitionKey=cls.partition_key(customerID, deviceID),
             RowKey=sensor_data.timestamp,
@@ -59,7 +64,7 @@ class DeviceTelemetry(TableSchema):
             deviceID=deviceID,
             sensorData=sensor_data,
             messageCount=messageCount,
-            deviceTimestamp=int(sensor_data.timestamp),
+            version=version,
             insertTimestamp=time_utils.timestamp(datetime.utcnow()),
         )
 
