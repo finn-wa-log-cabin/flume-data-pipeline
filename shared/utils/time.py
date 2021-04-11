@@ -4,7 +4,7 @@ from dateutil import tz, utils
 
 
 def timestamp(dt: datetime) -> int:
-    """Returns the datetime as a Unix timestamp with millisecond precision.
+    """Returns the datetime as a Unix timestamp with second precision.
     Note that the timezone will be converted to UTC.
 
     Args:
@@ -12,11 +12,11 @@ def timestamp(dt: datetime) -> int:
 
     Returns: A timestamp
     """
-    return round(as_utc(dt).timestamp() * 1000)
+    return round(as_utc(dt).timestamp())
 
 
 def fromtimestamp(ts: int) -> datetime:
-    """Returns a datetime constructed from a Unix timestamp with millisecond
+    """Returns a datetime constructed from a Unix timestamp with second
     precision.
     Assumes the timestamp was in UTC.
 
@@ -25,7 +25,7 @@ def fromtimestamp(ts: int) -> datetime:
 
     Returns: The datetime
     """
-    return datetime.fromtimestamp(float(ts / 1000), tz=tz.UTC)
+    return datetime.fromtimestamp(float(ts), tz=tz.UTC)
 
 
 def as_utc(dt: datetime) -> datetime:

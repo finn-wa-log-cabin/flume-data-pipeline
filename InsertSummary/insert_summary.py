@@ -35,7 +35,7 @@ def main(requestMsg: str, dataJson: str) -> str:
 
 def load_dataframe(sensor_data: List[SensorData]) -> DataFrame:
     df = DataFrame(sensor_data)
-    df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
+    df["timestamp"] = pd.to_datetime(df["timestamp"], unit="s")
     return df.set_index("timestamp")
 
 

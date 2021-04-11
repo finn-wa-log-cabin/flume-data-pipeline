@@ -9,12 +9,12 @@ NZDT = tzoffset("NZDT", timedelta(hours=13).seconds)
 
 def test_timestamp_nzdt():
     dt = datetime(2009, 2, 14, 12, 31, 31, 11000, tzinfo=NZDT)
-    assert time_utils.timestamp(dt) == 1234567891011
+    assert time_utils.timestamp(dt) == 1234567891
 
 
 def test_timestamp_utc():
     dt = datetime(2009, 2, 13, 23, 31, 31, 11000, tzinfo=tz.UTC)
-    assert time_utils.timestamp(dt) == 1234567891011
+    assert time_utils.timestamp(dt) == 1234567891
 
 
 def test_start_of_day_nzdt():

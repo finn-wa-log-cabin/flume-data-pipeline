@@ -23,10 +23,10 @@ def test_insert_telemetry(mocker: MockerFixture):
     row = insert_telemetry.main(event)
     row_dict = json.loads(row)
     assert row_dict["PartitionKey"] == "TestCustomer_TestDevice1"
-    assert row_dict["RowKey"] == "1602495228411"
+    assert row_dict["RowKey"] == "1602495228"
     assert row_dict["deviceID"] == "TestDevice1"
     assert row_dict["customerID"] == "TestCustomer"
     assert row_dict["sensorData"]["humidity"] == 65.0
     assert row_dict["sensorData"]["temperature"] == 25.2
-    assert row_dict["sensorData"]["timestamp"] == 1602495228411
+    assert row_dict["sensorData"]["timestamp"] == 1602495228
     assert row_dict["messageCount"] == 24

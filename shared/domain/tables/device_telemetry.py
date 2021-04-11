@@ -15,7 +15,7 @@ class SensorData(SchemaType):
     - humidity (float): The measured humidity as a percentage
     - temperature (float): The temperature reading (°C)
     - timestamp (str): The time that the readings were taken.
-        Stored in a millisecond-based Unix timestamp.
+        Stored in a second-based Unix timestamp.
     """
 
     humidity: float
@@ -52,14 +52,10 @@ class DeviceTelemetry(TableSchema):
 
         Returns: A new DeviceTelemetry object.
         """
-        sensor_data = SensorData(
-            humidity=sensorData["humidity"],
-            temperature=sensorData["temperature"],
-            timestamp=int(sensorData["timestamp"]),
-        )
+        sensor_data = SensorData(**sensorData)
         return cls(
             PartitionKey=cls.partition_key(customerID, deviceID),
-            RowKey=sensor_data.timestamp,
+            RowKey=str(sensor_data.timestamp),
             customerID=customerID,
             deviceID=deviceID,
             sensorData=sensor_data,
@@ -87,6 +83,6 @@ class DeviceTelemetry(TableSchema):
         Args:
         - dt: The datetime that the message was received.
 
-        Returns: A Unix timestamp in millisecond precision.
+        Returns: A Unix timestamp in second precision.
         """
         return str(time_utils.timestamp(dt))

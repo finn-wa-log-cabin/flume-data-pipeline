@@ -1,8 +1,8 @@
 {
   "readPartition": "TestCustomer1_TestDevice1",
   "writePartition": "TestCustomer1_TestDevice1_DAILY",
-  "startTimestamp": 1602979200000,
-  "endTimestamp": 1610236800000,
+  "startTimestamp": 1602979200,
+  "endTimestamp": 1610236800,
   "device": {
     "tankDepth": 1234,
     "RowKey": "TestDevice1",

@@ -7,6 +7,7 @@ from shared.utils.time import timestamp
 
 CUSTOMER_ID = "FakeCustomer1"
 DEVICE_ID = "FakeDevice1"
+VERSION = "1.0.0"
 
 START_TIMESTAMP = timestamp(datetime(2020, 1, 5))
 END_TIMESTAMP = timestamp(datetime(2020, 3, 12))
@@ -46,11 +47,12 @@ def init_telemetry() -> DeviceTelemetry:
             "temperature": START_TEMP,
         },
         messageCount=START_MSG_COUNT,
+        version=VERSION,
     )
 
 
 def next_timestamp(ts: int) -> int:
-    return ts + 1000 * int(timedelta(hours=1, seconds=randrange(-3, 3)).total_seconds())
+    return ts + int(timedelta(hours=1, seconds=randrange(-3, 3)).total_seconds())
 
 
 def next_humidity(humidity: float) -> float:
@@ -77,6 +79,7 @@ def next_telemetry(telemetry: DeviceTelemetry) -> DeviceTelemetry:
             "timestamp": next_timestamp(telemetry.sensorData.timestamp),
         },
         messageCount=next_msg_count(telemetry.messageCount),
+        version=VERSION,
     )
 
 
