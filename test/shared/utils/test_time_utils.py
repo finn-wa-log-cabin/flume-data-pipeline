@@ -8,8 +8,8 @@ NZDT = tzoffset("NZDT", timedelta(hours=13).seconds)
 
 
 def test_timestamp_nzdt():
-    dt = datetime(2009, 2, 14, 12, 31, 31, 11000, tzinfo=NZDT)
-    assert time_utils.timestamp(dt) == 1234567891
+    dt = datetime(2009, 2, 14, 12, 31, 30, tzinfo=NZDT)
+    assert time_utils.timestamp(dt) == 1234567890
 
 
 def test_timestamp_utc():
@@ -25,3 +25,14 @@ def test_start_of_day_nzdt():
 def test_start_of_day_no_tz():
     dt = datetime(2009, 2, 13, 1, 1, 31, 11000)
     assert time_utils.start_of_day(dt) == datetime(2009, 2, 13)
+
+
+def test_to_utc_and_back():
+    dt_local = datetime(2009, 2, 14, 12, 31, 30, tzinfo=NZDT)
+    ts_utc = time_utils.timestamp(dt_local)
+    assert ts_utc == 1234567890
+    assert (
+        time_utils.fromtimestamp(ts_utc).astimezone(tz.gettz("Pacific/Auckland"))
+        == dt_local
+    )
+    assert datetime.fromtimestamp(ts_utc, NZDT) == dt_local

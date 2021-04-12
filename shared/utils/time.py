@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from dateutil import tz, utils
+from shared.domain.summary_timespan import SummaryTimespan
 
 
 def timestamp(dt: datetime) -> int:
@@ -51,6 +52,17 @@ def start_of_day(dt: datetime) -> datetime:
     Returns: A new datetime with the time set to 00:00
     """
     return datetime(dt.year, dt.month, dt.day, tzinfo=dt.tzinfo)
+
+
+def start_of(timespan: SummaryTimespan, dt: datetime) -> datetime:
+    """Returns a datetime which is set to the start of the interval specified by
+    the timespan.
+    """
+    if timespan == SummaryTimespan.HOURLY:
+        stripped_dt = dt.replace(minute=0, second=0, microsecond=0)
+    else:
+        stripped_dt = dt.replace(hour=0, minute=0, second=0, microsecond=0)
+    return timespan.to_offset().rollback(stripped_dt)
 
 
 def dateint(dt: datetime) -> int:

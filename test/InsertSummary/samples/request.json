@@ -7,7 +7,8 @@
     "RowKey": "TestDevice1",
     "customerID": "TestCustomer1",
     "deviceID": "TestDevice1",
-    "PartitionKey": "TestCustomer1"
+    "PartitionKey": "TestCustomer1",
+    "timezone": "Pacific/Auckland"
   },
   "timespan": "MONTHLY"
 }

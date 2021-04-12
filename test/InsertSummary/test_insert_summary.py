@@ -41,6 +41,13 @@ def test_insert_summary():
         assert 5 < summary["meanData"]["temperature"] < 30
 
 
+def test_insert_summary_empty_data():
+    request_str = files.load_text(SAMPLES_PATH + "request.json")
+    data_str = "[]"
+    summaries_str = insert_summary.main(request_str, data_str)
+    assert summaries_str == data_str
+
+
 def test_mean_calculations():
     request_str = files.load_text(SAMPLES_PATH + "request.json")
     data_str = files.load_text(SAMPLES_PATH + "data.json")

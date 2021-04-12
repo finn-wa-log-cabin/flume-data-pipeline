@@ -10,9 +10,10 @@ class Device(TableSchema):
 
     customerID: str
     deviceID: str
+    timezone: str
 
     @classmethod
-    def new(cls, customerID: str, deviceID: str):
+    def new(cls, customerID: str, deviceID: str, timezone: str):
         """Creates a new Device object, automatically generating values for
         PartitionKey & RowKey.
 
@@ -27,4 +28,5 @@ class Device(TableSchema):
             RowKey=deviceID,
             customerID=customerID,
             deviceID=deviceID,
+            timezone=timezone,
         )

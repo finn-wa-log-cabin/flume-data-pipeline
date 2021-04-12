@@ -1,7 +1,6 @@
 import logging
 from typing import List
 
-from dateutil import tz, utils
 from shared.domain.messages.summary_request import *
 from shared.domain.messages.timer_request import TimerRequest
 from shared.domain.tables.device import Device
@@ -18,7 +17,7 @@ def device_summary_req_msgs(
 
     Args:
     - timerJson: Serialised TimerRequest which triggered the SummaryRequest
-    - devicesJson: Serialized list of Devices which DeviceSummaryRequests should
+    - devicesJson: Serialised list of Devices which DeviceSummaryRequests should
         be created for
     - timespan: The timespan to bin data in before summarising
 
@@ -32,8 +31,8 @@ def device_summary_req_msgs(
 
     request = SummaryRequest(
         timespan=timespan,
-        startTime=start_of_day(as_utc(timer.ScheduleStatus.Last)),
-        endTime=start_of_day(utils.today(tz.UTC)),
+        startTime=as_utc(timer.ScheduleStatus.Last),
+        endTime=as_utc(datetime.utcnow()),
     )
 
     schema = DeviceSummaryRequest.Schema(many=True)
@@ -43,10 +42,13 @@ def device_summary_req_msgs(
 def device_summmary_request(
     request: SummaryRequest, device: Device
 ) -> DeviceSummaryRequest:
+    timezone = tz.gettz(device.timezone)
+    start_time = start_of(request.timespan, request.startTime.astimezone(timezone))
+    end_time = start_of(request.timespan, request.endTime.astimezone(timezone))
     return DeviceSummaryRequest(
         timespan=request.timespan,
-        startTimestamp=timestamp(request.startTime),
-        endTimestamp=timestamp(request.endTime),
+        startTimestamp=timestamp(start_time),
+        endTimestamp=timestamp(end_time),
         readPartition=DeviceTelemetry.partition_key(device.customerID, device.deviceID),
         writePartition=Summary.partition_key(
             device.customerID, device.deviceID, request.timespan

@@ -11,14 +11,14 @@ from QueueHourlySummary import queue_hourly_summary as qhs
 SAMPLES_PATH = "test/QueueHourlySummary/samples/"
 
 
-def test_queue_daily_summary():
+def test_queue_hourly_summary():
     timer_json = load_text(SAMPLES_PATH + "timer.json")
     devices_json = load_text(SAMPLES_PATH + "devices.json")
     nzdt = tzoffset("NZDT", timedelta(hours=13))
-    expected_start = timestamp(
-        start_of_day(as_utc(datetime(2020, 10, 19, tzinfo=nzdt)))
+    expected_start = timestamp(datetime(2020, 10, 19, 12, tzinfo=nzdt))
+    expected_end = timestamp(
+        datetime.now(tz=nzdt).replace(minute=0, second=0, microsecond=0)
     )
-    expected_end = timestamp(utils.today(tzinfo=tz.UTC))
 
     requests = json.loads(qhs.main(timer_json, devices_json))
     devices = json.loads(devices_json)
