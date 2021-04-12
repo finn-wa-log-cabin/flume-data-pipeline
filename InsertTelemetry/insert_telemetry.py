@@ -15,4 +15,4 @@ def main(event: EventGridEvent) -> str:
     """
     body = json.loads(b64decode(event.get_json()["body"]))
     row = DeviceTelemetry.new(**body)
-    return DeviceTelemetry.Schema().dumps(row)
+    return DeviceTelemetry.Schema().dumps(row, sort_keys=True)

@@ -21,7 +21,7 @@
       "direction": "out",
       "type": "table",
       "name": "$return",
-      "tableName": "DeviceTelemetry",
+      "tableName": "Summary",
       "connection": "AzureWebJobsStorage"
     }
   ]

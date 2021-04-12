@@ -1,5 +1,5 @@
 {
-  "scriptFile": "queue_daily_summary.py",
+  "scriptFile": "queue_hourly_summary.py",
   "bindings": [
     {
       "direction": "in",
