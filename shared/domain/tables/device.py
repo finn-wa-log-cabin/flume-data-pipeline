@@ -10,17 +10,15 @@ class Device(TableSchema):
 
     customerID: str
     deviceID: str
-    tankDepth: int
 
     @classmethod
-    def new(cls, customerID: str, deviceID: str, tankDepth: int):
+    def new(cls, customerID: str, deviceID: str):
         """Creates a new Device object, automatically generating values for
         PartitionKey & RowKey.
 
         Args:
         - customerID: The customer ID. Also used as the PartitionKey.
         - deviceID: The device ID. Also used as the RowKey.
-        - tankDepth: The depth of the tank the device is in.
 
         Returns: A new Device object.
         """
@@ -29,5 +27,4 @@ class Device(TableSchema):
             RowKey=deviceID,
             customerID=customerID,
             deviceID=deviceID,
-            tankDepth=tankDepth,
         )

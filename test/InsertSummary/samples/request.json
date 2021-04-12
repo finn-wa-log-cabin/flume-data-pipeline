@@ -4,7 +4,6 @@
   "startTimestamp": 1602979200,
   "endTimestamp": 1610236800,
   "device": {
-    "tankDepth": 1234,
     "RowKey": "TestDevice1",
     "customerID": "TestCustomer1",
     "deviceID": "TestDevice1",
