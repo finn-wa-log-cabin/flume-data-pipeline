@@ -36,7 +36,9 @@ def device_summary_req_msgs(
     )
 
     schema = DeviceSummaryRequest.Schema(many=True)
-    return schema.dumps([device_summmary_request(request, d) for d in devices])
+    return schema.dumps(
+        [device_summmary_request(request, d) for d in devices], sort_keys=True
+    )
 
 
 def device_summmary_request(

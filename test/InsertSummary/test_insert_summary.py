@@ -20,25 +20,25 @@ def test_insert_summary():
     jan_ts = time.timestamp(datetime(year=2020, month=1, day=1))
     assert summaries[0]["RowKey"] == str(jan_ts)
     assert summaries[0]["startTimestamp"] == jan_ts
-    assert summaries[0]["meanData"]["timestamp"] == jan_ts
+    assert summaries[0]["meanData.timestamp"] == jan_ts
 
     feb_ts = time.timestamp(datetime(year=2020, month=2, day=1))
     assert summaries[1]["RowKey"] == str(feb_ts)
     assert summaries[1]["startTimestamp"] == feb_ts
-    assert summaries[1]["meanData"]["timestamp"] == feb_ts
+    assert summaries[1]["meanData.timestamp"] == feb_ts
 
     mar_ts = time.timestamp(datetime(year=2020, month=3, day=1))
     assert summaries[2]["RowKey"] == str(mar_ts)
     assert summaries[2]["startTimestamp"] == mar_ts
-    assert summaries[2]["meanData"]["timestamp"] == mar_ts
+    assert summaries[2]["meanData.timestamp"] == mar_ts
 
     for summary in summaries:
         assert summary["customerID"] == "TestCustomer1"
         assert summary["deviceID"] == "TestDevice1"
         assert summary["timespan"] == "MONTHLY"
         assert summary["PartitionKey"] == "TestCustomer1_TestDevice1_MONTHLY"
-        assert 0 < summary["meanData"]["humidity"] < 100
-        assert 5 < summary["meanData"]["temperature"] < 30
+        assert 0 < summary["meanData.humidity"] < 100
+        assert 5 < summary["meanData.temperature"] < 30
 
 
 def test_insert_summary_empty_data():

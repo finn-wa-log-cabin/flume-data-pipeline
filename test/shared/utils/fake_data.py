@@ -31,13 +31,10 @@ def fake_data():
         telemetry = next_telemetry(telemetry)
 
     with open("fake_data.json", "w+") as file:
-        file.write(DeviceTelemetry.Schema().dumps(generated, many=True))
+        file.write(DeviceTelemetry.dumps_flattened(generated, many=True))
 
 
 def init_telemetry() -> DeviceTelemetry:
-    next_data = SensorData(
-        timestamp=START_TIMESTAMP, humidity=START_HUMIDITY, temperature=START_TEMP
-    )
     return DeviceTelemetry.new(
         customerID=CUSTOMER_ID,
         deviceID=DEVICE_ID,

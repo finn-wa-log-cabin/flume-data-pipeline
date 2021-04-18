@@ -19,7 +19,7 @@ def main(requestMsg: str, dataJson: str) -> str:
     Returns: An array of serialised Summary rows
     """
     request: DeviceSummaryRequest = DeviceSummaryRequest.Schema().loads(requestMsg)
-    telemetry: List[DeviceTelemetry] = DeviceTelemetry.Schema().loads(
+    telemetry: List[DeviceTelemetry] = DeviceTelemetry.loads_flattened(
         dataJson, many=True
     )
     dataframe = load_dataframe([t.sensorData for t in telemetry])
@@ -30,11 +30,11 @@ def main(requestMsg: str, dataJson: str) -> str:
         .to_dict(orient="records")
     )
     summaries = [create_summary(mean_data, request) for mean_data in binned_mean]
-    return Summary.Schema().dumps(summaries, many=True)
+    return Summary.dumps_flattened(summaries, many=True)
 
 
 def load_dataframe(sensor_data: List[SensorData]) -> DataFrame:
-    df = DataFrame(sensor_data)
+    df = DataFrame(sensor_data, columns=SensorData.Schema().fields.keys())
     df["timestamp"] = pd.to_datetime(df["timestamp"], unit="s")
     return df.set_index("timestamp")
 

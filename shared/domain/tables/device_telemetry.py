@@ -44,9 +44,9 @@ class DeviceTelemetry(TableSchema):
         messageCount: int,
         version: str,
         sensorData: Dict[str, Any],
-    ):
+    ):  # -> DeviceTelemetry:
         """Creates a new DeviceTelemetry object, automatically generating values
-        for PartitionKey & RowKey.
+        for PartitionKey, RowKey, and insertTimestamp.
 
         Args: Values for class fields (excluding PartitionKey & RowKey).
 
