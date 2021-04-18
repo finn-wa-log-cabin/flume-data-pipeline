@@ -14,7 +14,7 @@
       "name": "dataJson",
       "tableName": "DeviceTelemetry",
       "partitionKey": "{readPartition}",
-      "filter": "RowKey gt '{startTimestamp}' and RowKey lt '{endTimestamp}'",
+      "filter": "RowKey gt '{startTimestamp}' and RowKey le '{endTimestamp}'",
       "connection": "AzureWebJobsStorage"
     },
     {
