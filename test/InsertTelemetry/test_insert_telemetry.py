@@ -2,6 +2,7 @@ import json
 from base64 import b64encode
 
 from pytest_mock.plugin import MockerFixture
+from shared.domain.tables.device_telemetry import DeviceTelemetry
 from shared.utils.files import *
 
 from InsertTelemetry import insert_telemetry
@@ -26,7 +27,7 @@ def test_insert_telemetry(mocker: MockerFixture):
     assert row_dict["RowKey"] == "1602495228"
     assert row_dict["deviceID"] == "TestDevice1"
     assert row_dict["customerID"] == "TestCustomer"
-    assert row_dict["sensorData.humidity"] == 65.0
-    assert row_dict["sensorData.temperature"] == 25.2
-    assert row_dict["sensorData.timestamp"] == 1602495228
+    assert row_dict["sensorData_humidity"] == 65.0
+    assert row_dict["sensorData_temperature"] == 25.2
+    assert row_dict["sensorData_timestamp"] == 1602495228
     assert row_dict["messageCount"] == 24

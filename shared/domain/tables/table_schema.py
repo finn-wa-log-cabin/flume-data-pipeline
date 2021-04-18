@@ -33,9 +33,9 @@ class TableSchema(SchemaType):
         """
         unflattened = cls.Schema().dump(data, many=many)
         if many:
-            flattened = [flatten(obj, separator=".") for obj in unflattened]
+            flattened = [flatten(obj) for obj in unflattened]
         else:
-            flattened = flatten(unflattened, separator=".")
+            flattened = flatten(unflattened)
         return json.dumps(flattened, sort_keys=True)
 
     @classmethod
@@ -51,7 +51,7 @@ class TableSchema(SchemaType):
         """
         flattened = json.loads(flattened_str)
         if many:
-            unflattened = [unflatten(obj, separator=".") for obj in flattened]
+            unflattened = [unflatten(obj) for obj in flattened]
         else:
-            unflattened = unflatten(flattened, separator=".")
+            unflattened = unflatten(flattened)
         return cls.Schema().load(unflattened, many=many)
