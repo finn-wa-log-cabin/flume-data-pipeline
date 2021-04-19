@@ -1,4 +1,6 @@
 import json
+from dataclasses import field
+from typing import Optional
 
 from flatten_json import flatten, unflatten
 from marshmallow_dataclass import dataclass
@@ -11,6 +13,7 @@ class TableSchema(SchemaType):
 
     PartitionKey: str
     RowKey: str
+    Timestamp: Optional[str] = field(init=False)
 
     @classmethod
     def dumps_flattened(cls, data, many=False) -> str:
@@ -36,7 +39,7 @@ class TableSchema(SchemaType):
             flattened = [flatten(obj) for obj in unflattened]
         else:
             flattened = flatten(unflattened)
-        return json.dumps(flattened, sort_keys=True)
+        return json.dumps(flattened, sort_keys=True, separators=(",", ":"))
 
     @classmethod
     def loads_flattened(cls, flattened_str: str, many=False):
