@@ -1,0 +1,45 @@
+name: Deploy Flume to Azure Function App
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  AZURE_FUNCTIONAPP_NAME: WaterTankMonitorDataPipeline
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'flume'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.1.6
+
+      - name: Export poetry dependencies
+        run: poetry export -o flume/requirements.txt
+
+      - name: Install dependencies with pip
+        shell: bash
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+          popd
+
+      - name: Deploy Function App to Azure
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
